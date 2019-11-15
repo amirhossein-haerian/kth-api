@@ -6,8 +6,7 @@
   "main": "app.js",
   "private": true,
   "scripts": {
-    "codecheck": "standard",
-    "codefix": "standard --fix",
+    "codefix": "pretty-quick",
     "test": "mocha --exit test/**/*.js",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development nodemon app.js"
