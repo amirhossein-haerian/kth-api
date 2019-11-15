@@ -14,13 +14,13 @@ const schema = mongoose.Schema({
     trim: true,
     minlength: [1, 'Name must have at least one character.'],
     maxlength: [20, 'Name must have at most 20 characters.'],
-    default: ''
-  }
+    default: '',
+  },
 })
 
-const Sample = mongoose.model('Sample', schema)
+const sample = mongoose.model('Sample', schema)
 
 module.exports = {
-  Sample: Sample,
-  schema: schema
+  Sample: sample,
+  schema,
 }

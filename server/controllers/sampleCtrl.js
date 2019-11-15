@@ -3,14 +3,9 @@
 /**
  * Sample API controller. Can safely be removed.
  */
-const Sample = require('../models').sample.Sample
+const { Sample } = require('../models').sample
 
-module.exports = {
-  getData: getData,
-  postData: postData
-}
-
-async function getData (req, res, next) {
+async function getData(req, res, next) {
   try {
     let doc = {}
     if (process.env.NODE_MOCK) {
@@ -29,14 +24,14 @@ async function getData (req, res, next) {
   }
 }
 
-async function postData (req, res, next) {
+async function postData(req, res, next) {
   try {
     let doc = await Sample.findById(req.params.id)
 
     if (!doc) {
       doc = new Sample({
         _id: req.params.id,
-        name: req.body.name
+        name: req.body.name,
       })
     } else {
       doc.name = req.body.name
@@ -47,4 +42,9 @@ async function postData (req, res, next) {
   } catch (err) {
     next(err)
   }
+}
+
+module.exports = {
+  getData,
+  postData,
 }

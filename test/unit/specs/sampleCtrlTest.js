@@ -1,14 +1,17 @@
 /* eslint-env mocha */
 /* eslint-disable no-unused-expressions */
+
 'use strict'
+
 const proxyquire = require('proxyquire')
-const expect = require('chai').expect
-function MockSample (doc) {
+const { expect } = require('chai')
+
+function MockSample(doc) {
   this._id = doc._id
   this.name = doc.name
 }
 
-MockSample.findById = function (id) {
+MockSample.findById = function(id) {
   let doc
 
   if (id === '123') {
@@ -22,7 +25,7 @@ MockSample.findById = function (id) {
   return Promise.resolve(doc)
 }
 
-MockSample.prototype.save = function () {
+MockSample.prototype.save = function save() {
   if (this._id === '123' || this._id === 'abc') {
     return Promise.resolve()
   }
@@ -33,26 +36,26 @@ MockSample.prototype.save = function () {
 const sample = proxyquire('../../../server/controllers/sampleCtrl', {
   '../models': {
     sample: {
-      Sample: MockSample
-    }
-  }
+      Sample: MockSample,
+    },
+  },
 })
 
-describe('Tests', function () {
+describe('Tests', function test() {
   it('should getData ok', () => {
     const req = {
       params: {
-        id: '123'
-      }
+        id: '123',
+      },
     }
 
     const res = {
-      json: (obj) => {
+      json: obj => {
         expect(obj.id).to.equal('123')
-      }
+      },
     }
 
-    const next = (err) => {
+    const next = err => {
       expect(err).to.be.undefined
     }
 
@@ -62,17 +65,17 @@ describe('Tests', function () {
   it('should handle getData not found', () => {
     const req = {
       params: {
-        id: 'abc'
-      }
+        id: 'abc',
+      },
     }
 
     const res = {
-      json: (data) => {
+      json: data => {
         expect(data).to.be.undefined
-      }
+      },
     }
 
-    const next = (err) => {
+    const next = err => {
       expect(err).to.be.undefined
     }
 
@@ -82,17 +85,17 @@ describe('Tests', function () {
   it('should handle getData fail', () => {
     const req = {
       params: {
-        id: 'fail'
-      }
+        id: 'fail',
+      },
     }
 
     const res = {
-      json: (data) => {
+      json: data => {
         expect(data).to.be.undefined
-      }
+      },
     }
 
-    const next = (err) => {
+    const next = err => {
       expect(err).to.be.not.undefined
     }
 
@@ -102,20 +105,20 @@ describe('Tests', function () {
   it('should postData update ok', () => {
     const req = {
       params: {
-        id: '123'
+        id: '123',
       },
       body: {
-        name: 'foo'
-      }
+        name: 'foo',
+      },
     }
 
     const res = {
-      json: (obj) => {
+      json: obj => {
         expect(obj.id).to.equal('123')
-      }
+      },
     }
 
-    const next = (err) => {
+    const next = err => {
       expect(err).to.be.undefined
     }
 
@@ -125,20 +128,20 @@ describe('Tests', function () {
   it('should postData create ok', () => {
     const req = {
       params: {
-        id: 'abc'
+        id: 'abc',
       },
       body: {
-        name: 'foo'
-      }
+        name: 'foo',
+      },
     }
 
     const res = {
-      json: (obj) => {
+      json: obj => {
         expect(obj.id).to.equal('abc')
-      }
+      },
     }
 
-    const next = (err) => {
+    const next = err => {
       expect(err).to.be.undefined
     }
 
@@ -148,20 +151,20 @@ describe('Tests', function () {
   it('should handle postData fail', () => {
     const req = {
       params: {
-        id: 'fail'
+        id: 'fail',
       },
       body: {
-        name: 'foo'
-      }
+        name: 'foo',
+      },
     }
 
     const res = {
-      json: (data) => {
+      json: data => {
         expect(data).to.be.undefined
-      }
+      },
     }
 
-    const next = (err) => {
+    const next = err => {
       expect(err).to.be.not.undefined
     }
 

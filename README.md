@@ -1,18 +1,19 @@
 # Node-api
+
 ## Template project for RESTful API:s
 
 In an attempt to simplify the process of starting up new Node.js based projects, there exists two template projects
 to use as a foundation.
 
-The two projects are [node-web][web], a web server with express, and [node-api][api], a RESTful API. 
-The node-web project use OpenID Connect and/or CAS as a mechanism for authorisation and authentication.
+The two projects are [node-web][web], a web server with express, and [node-api][api], a RESTful API.
+The node-web project CAS as a mechanism for authorisation and authentication.
 
 #### Where can I find the template projects?
 
 - [https://github.com/KTH/node-api.git][api]
 - [https://github.com/KTH/node-web.git][web]
 
-It's important that we try to make changes that affect the template projects in the template projects themselves 
+It's important that we try to make changes that affect the template projects in the template projects themselves
 to make sure that all other projects based on the templates get the good stuff.
 
 #### How do I use this template project for a project of my own?
@@ -23,6 +24,7 @@ to make sure that all other projects based on the templates get the good stuff.
    ```bash
    git clone git@github.com:KTH/node-api.git NEW_REPOSITORY_NAME
    ```
+
 3. Navigate to the cloned project directory
 
 4. Change remote repo
@@ -30,11 +32,10 @@ to make sure that all other projects based on the templates get the good stuff.
    ```bash
    git remote add origin https://github.com/KTH/<NEW_REPOSITORY_NAME>.git
    ```
+
 ### How to configure the applications
 
 Make sure you have a MongoDb connected. An easy way to add a MongoDb is to clone and start the following database repo on your local machine: https://gita.sys.kth.se/infosys/kth-node-backend
-
-
 
 ```
 # Logging
@@ -135,11 +136,12 @@ custom project.
 #### Common errors
 
 When trying to run node-api as a standalone you might encounter the following error:
+
 ```
 return binding.open(pathModule._makeLong(path), stringToFlags(flags), mode);
 ```
-This is because the SSL information is incorrect in localSettings.js. Set ```useSsl: false``` to avoid this.
 
+This is because the SSL information is incorrect in localSettings.js. Set `useSsl: false` to avoid this.
 
 #### Testing
 

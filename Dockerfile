@@ -1,6 +1,6 @@
 FROM kthse/kth-nodejs:10.14.0
 
-MAINTAINER KTH Webb "cortina.developers@kth.se"
+LABEL Maintainer="KTH Webb <cortina.developers@kth.se>"
 
 RUN mkdir -p /npm && \
     mkdir -p /application
