@@ -1,3 +1,7 @@
+#
+# A daily updated common KTH Alpine based image.
+# Versions: https://hub.docker.com/r/kthse/kth-nodejs/tags
+#
 FROM kthse/kth-nodejs:12.0.0
 
 #
