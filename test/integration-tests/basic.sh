@@ -3,7 +3,7 @@
 error() { printf "\n \033[0;31mERROR: $@\033[0;0m | $(date) \n"; }
 passed() { printf "\n \033[0;32m   OK: $@\033[0;0m | $(date) \n\n"; }
 
-MONITOR_URL="http://web:3000/node-api/_monitor";
+MONITOR_URL="http://api:3001/node-api/_monitor";
 
 PATTERN="APPLICATION_STATUS: OK" #env in set in file: docker-compose-integration-tests.yml
 
