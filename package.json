@@ -9,7 +9,8 @@
     "codefix": "pretty-quick",
     "test": "mocha --exit test/**/*.js",
     "start": "NODE_ENV=production node app.js",
-    "start-dev": "cross-env NODE_ENV=development nodemon app.js"
+    "start-dev": "cross-env NODE_ENV=development nodemon app.js",
+    "docker": "npm audit fix && npm install --production --no-optional"
   },
   "dependencies": {
     "@kth/kth-node-cosmos-db": "^3.0.6",

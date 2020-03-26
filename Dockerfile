@@ -1,33 +1,34 @@
-FROM kthse/kth-nodejs:10.14.0
+FROM kthse/kth-nodejs:12.0.0
 
-LABEL Maintainer="KTH Webb <cortina.developers@kth.se>"
+#
+# Put the application into a direcctory in the root.
+# This will prevent file polution, and possible overwriting of files.
+#
+RUN mkdir -p /application
+WORKDIR /application
 
-RUN mkdir -p /npm && \
-    mkdir -p /application
-
-# We do this to avoid npm install when we're only changing code
-WORKDIR /npm
+#
+# Copy the files needed to install the production dependencies,
+# and install them using the script docker.
+#
 COPY ["package-lock.json", "package-lock.json"]
 COPY ["package.json", "package.json"]
-RUN npm install --production --no-optional
+RUN ["npm", "run", "docker"]
 
-# Add the code and copy over the node_modules-catalog
-WORKDIR /application
-RUN cp -a /npm/node_modules /application && \
-    rm -rf /npm
-
-# Copy files used by Gulp.
+#
+# Copy the files needed for the application to run.
+#
 COPY ["config", "config"]
-
-COPY ["package.json", "package.json"]
-
-# Copy source files, so changes does not trigger gulp.
 COPY ["app.js", "app.js"]
 COPY ["swagger.json", "swagger.json"]
 COPY ["server", "server"]
 
-ENV NODE_PATH /application
-
+#
+# Port that the application will expose.
+#
 EXPOSE 3001
 
+#
+# The command that is executed when an instance of this image is run.
+#
 CMD ["node", "app.js"]
