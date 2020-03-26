@@ -15,6 +15,8 @@ WORKDIR /application
 # Copy the files needed to install the production dependencies,
 # and install them using the script docker.
 #
+# Remember to only install production dependencies.
+#
 COPY ["package-lock.json", "package-lock.json"]
 COPY ["package.json", "package.json"]
 RUN ["npm", "run", "docker"]
