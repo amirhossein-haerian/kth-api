@@ -12,7 +12,8 @@
     "test-unit-in-docker": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-unit-tests.yml up --abort-on-container-exit --always-recreate-deps",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "cross-env NODE_ENV=development nodemon app.js",
-    "docker": "npm audit fix && npm install --production --no-optional"
+    "docker": "npm audit fix && npm install --production --no-optional",
+    "docker-build-local": "source docker.conf && docker build --tag $IMAGE_NAME:$IMAGE_VERSION ."
   },
   "dependencies": {
     "@kth/kth-node-cosmos-db": "^3.0.6",
