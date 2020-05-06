@@ -23,6 +23,7 @@
     "no-plusplus": "off",
     "no-restricted-syntax": "off",
     "no-await-in-loop": "off",
+    "no-underscore-dangle": "off",
     "radix": "off",
     "sort-imports": [
       "error",
