@@ -12,7 +12,7 @@ const mongoOptions = {
   logger: log,
 }
 
-module.exports.connect = function() {
+module.exports.connect = function connect() {
   nodeMongo
     .connect(mongoOptions)
     .then(data => {
