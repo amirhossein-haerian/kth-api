@@ -53,7 +53,7 @@ async function getAbout(req, res) {
  * GET /_monitor
  * Monitor page
  */
-function getMonitor(req, res) {
+async function getMonitor(req, res) {
   // Check MongoDB
   const mongodbHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-mongodb')
   const subSystems = [mongodbHealthUtil.status(db, { required: true })]
@@ -69,28 +69,21 @@ function getMonitor(req, res) {
   // Determine system health based on the results of the checks above. Expects
   // arrays of promises as input. This returns a promise
   const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
-  const systemStatus = systemHealthUtil.status(localSystems, subSystems)
+  try {
+    const systemStatus = await systemHealthUtil.status(localSystems, subSystems)
 
-  systemStatus
-    .then(status => {
-      // Return the result either as JSON or text
+    if (systemStatus) {
       if (req.headers.accept === 'application/json') {
-        const outp = systemHealthUtil.renderJSON(status)
-        res.status(status.statusCode).json(outp)
-      } else {
-        const outp = systemHealthUtil.renderText(status)
-        res
-          .type('text')
-          .status(status.statusCode)
-          .send(outp)
+        const outp = systemHealthUtil.renderJSON(systemStatus)
+        return res.status(systemStatus.statusCode).json(outp)
       }
-    })
-    .catch(err => {
-      res
-        .type('text')
-        .status(500)
-        .send(err)
-    })
+      const outp = systemHealthUtil.renderText(systemStatus)
+      return res.type('text').status(systemStatus.statusCode).send(outp)
+    }
+    throw new Error('no systemStatus')
+  } catch (err) {
+    return res.type('text').status(500).send(err)
+  }
 }
 
 /**

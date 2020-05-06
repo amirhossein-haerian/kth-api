@@ -159,14 +159,32 @@ server.use(errorHandler)
 
 const { createClient } = require('@kth/kth-node-cosmos-db')
 
-createClient({
+const [dbHost] = config.db.host.split(':')
+const dbClient = createClient({
   username: config.db.username,
   password: config.db.password,
-  host: config.db.host,
+  host: dbHost,
+
   db: config.db.db,
   defaultThroughput: 400,
   maxThroughput: 2000,
   collections: [{ name: 'samples' }],
-}).init()
+})
+
+if (dbClient) {
+  ;(async () => {
+    try {
+      log.info(`Init cosmosdb `)
+      await dbClient.init()
+      const { initModels } = require('./models')
+      await initModels()
+      log.info(`Init cosmosdb models DONE`)
+    } catch (err) {
+      log.fatal(`Init cosmosdb failed.`, { err })
+    }
+  })()
+} else {
+  log.fatal(`createClient cosmosdb failed.`)
+}
 
 module.exports = server

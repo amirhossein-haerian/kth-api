@@ -5,8 +5,9 @@
  */
 
 const mongoose = require('mongoose')
+const { getClient } = require('@kth/kth-node-cosmos-db')
 
-const schema = mongoose.Schema({
+const schema = new mongoose.Schema({
   _id: String,
   name: {
     type: String,
@@ -18,9 +19,29 @@ const schema = mongoose.Schema({
   },
 })
 
-const sample = mongoose.model('Sample', schema)
+let client
+let model
 
-module.exports = {
-  Sample: sample,
-  schema,
+const initSample = async () => {
+  try {
+    client = await getClient()
+    model = await client.createMongooseModel('Sample', schema, mongoose)
+    return model
+  } catch (err) {
+    if (process.env.NODE_ENV === 'development') {
+      model = mongoose.model('Sample', schema)
+      return model
+    }
+    return null
+  }
 }
+const getSample = () => {
+  if (model) return model
+  if (process.env.NODE_ENV === 'development') {
+    model = mongoose.model('Sample', schema)
+    return model
+  }
+  return null
+}
+
+module.exports = { getSample, initSample }
