@@ -13,6 +13,8 @@ const { IHealthCheck } = require('kth-node-monitor').interfaces
 
 const { getClient } = require('@kth/kth-node-cosmos-db')
 
+const started = new Date()
+
 /**
  * GET /swagger.json
  * Swagger config
@@ -46,6 +48,7 @@ async function getAbout(req, res) {
     dockerVersion: JSON.stringify(version.dockerVersion),
     collections,
     hostname: os.hostname(),
+    started,
   })
 }
 
@@ -79,17 +82,11 @@ function getMonitor(req, res) {
         res.status(status.statusCode).json(outp)
       } else {
         const outp = systemHealthUtil.renderText(status)
-        res
-          .type('text')
-          .status(status.statusCode)
-          .send(outp)
+        res.type('text').status(status.statusCode).send(outp)
       }
     })
     .catch(err => {
-      res
-        .type('text')
-        .status(500)
-        .send(err)
+      res.type('text').status(500).send(err)
     })
 }
 
