@@ -22,6 +22,7 @@
     "no-plusplus": "off",
     "no-restricted-syntax": "off",
     "no-await-in-loop": "off",
+    "radix": "off",
     "sort-imports": [
       "error",
       {
