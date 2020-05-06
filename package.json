@@ -60,10 +60,11 @@
     "tabWidth": 2,
     "semi": false,
     "singleQuote": true,
-    "printWidth": 120
+    "printWidth": 120,
+    "arrowParens": "avoid"
   },
   "engines": {
-    "node": "8.16.1"
+    "node": "12.0.0"
   },
   "husky": {
     "hooks": {
