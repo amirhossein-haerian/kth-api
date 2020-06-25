@@ -34,10 +34,10 @@
     "kth-node-mongo": "^3.2.3",
     "kth-node-monitor": "^1.1.6",
     "kth-node-server": "^3.1.2",
-    "mongoose": "^5.9.16",
+    "mongoose": "^5.9.20",
     "passport": "^0.4.1",
     "safe-utils": "0.2.1",
-    "swagger-ui-dist": "^3.25.5"
+    "swagger-ui-dist": "^3.27.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -54,8 +54,8 @@
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "is-ci-cli": "^2.0.0",
-    "jest": "^26.0.1"
+    "is-ci-cli": "^2.1.2",
+    "jest": "^26.1.0"
   },
   "prettier": {
     "trailingComma": "es5",
