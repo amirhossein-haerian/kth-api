@@ -18,7 +18,6 @@
     "docker-build-local": "source docker.conf && docker build --tag $IMAGE_NAME:$IMAGE_VERSION ."
   },
   "dependencies": {
-    "@kth/kth-node-cosmos-db": "^4.0.11",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "component-registry": "^1.3.1",

@@ -3,17 +3,6 @@ const { getData, postData } = require('./sampleCtrl')
 // Test data
 //
 
-// Mock functions
-jest.mock('@kth/kth-node-cosmos-db', () => {
-  return {
-    getClient: jest.fn().mockImplementation(() => {
-      return {
-        listCollectionsWithThroughput: jest.fn(),
-      }
-    }),
-  }
-})
-
 jest.mock('../server', () => {
   return {
     getPaths: jest.fn().mockImplementation(() => {
@@ -33,26 +22,24 @@ jest.mock('../server', () => {
 
 jest.mock('../models', () => {
   return {
-    getSample: jest.fn().mockImplementation(() => {
-      return {
-        findById: jest.fn().mockImplementation(_id => {
-          if (!_id || _id === 'abc') return null
-          if (_id === 'fail')
-            return {
-              _id,
-              name: 'mockdata',
-              save: jest.fn().mockImplementation(() => {
-                throw new Error('Failed to save')
-              }),
-            }
+    Sample: {
+      findById: jest.fn().mockImplementation(_id => {
+        if (!_id || _id === 'abc') return null
+        if (_id === 'fail')
           return {
             _id,
             name: 'mockdata',
-            save: jest.fn().mockImplementation(() => {}),
+            save: jest.fn().mockImplementation(() => {
+              throw new Error('Failed to save')
+            }),
           }
-        }),
-      }
-    }),
+        return {
+          _id,
+          name: 'mockdata',
+          save: jest.fn().mockImplementation(() => {}),
+        }
+      }),
+    },
   }
 })
 

@@ -13,16 +13,6 @@ const applicationPaths = {
 
 // Mock functions
 
-jest.mock('@kth/kth-node-cosmos-db', () => {
-  return {
-    getClient: jest.fn().mockImplementation(() => {
-      return {
-        listCollectionsWithThroughput: jest.fn(),
-      }
-    }),
-  }
-})
-
 jest.mock('../server', () => {
   return {
     getPaths: jest.fn().mockImplementation(() => {

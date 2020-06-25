@@ -152,39 +152,4 @@ server.use(errorHandler)
  * ****************************
  */
 
-/* **********************************
- * ******* INIT AZURE CLIENT  *******
- * **********************************
- */
-
-const { createClient } = require('@kth/kth-node-cosmos-db')
-
-const [dbHost] = config.db.host.split(':')
-const dbClient = createClient({
-  username: config.db.username,
-  password: config.db.password,
-  host: dbHost,
-
-  db: config.db.db,
-  defaultThroughput: 400,
-  maxThroughput: 2000,
-  collections: [{ name: 'samples' }],
-})
-
-if (dbClient) {
-  ;(async () => {
-    try {
-      log.info(`Init cosmosdb `)
-      await dbClient.init()
-      const { initModels } = require('./models')
-      await initModels()
-      log.info(`Init cosmosdb models DONE`)
-    } catch (err) {
-      log.fatal(`Init cosmosdb failed.`, { err })
-    }
-  })()
-} else {
-  log.fatal(`createClient cosmosdb failed.`)
-}
-
 module.exports = server

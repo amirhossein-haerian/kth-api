@@ -3,7 +3,7 @@
 /**
  * Sample API controller. Can safely be removed.
  */
-const { getSample } = require('../models')
+const { Sample } = require('../models')
 
 async function getData(req, res, next) {
   try {
@@ -11,7 +11,7 @@ async function getData(req, res, next) {
     if (process.env.NODE_MOCK) {
       doc = await { _id: req.params.id, name: 'mockdata' }
     } else {
-      doc = await getSample().findById(req.params.id)
+      doc = await Sample.findById(req.params.id)
     }
 
     if (!doc) {
@@ -26,11 +26,9 @@ async function getData(req, res, next) {
 
 async function postData(req, res, next) {
   try {
-    let doc = await getSample().findById(req.params.id)
+    let doc = await Sample.findById(req.params.id)
 
     if (!doc) {
-      const Sample = getSample()
-
       doc = new Sample({
         _id: req.params.id,
         name: req.body.name,

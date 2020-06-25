@@ -11,8 +11,6 @@ const Promise = require('bluebird')
 const registry = require('component-registry').globalRegistry
 const { IHealthCheck } = require('kth-node-monitor').interfaces
 
-const { getClient } = require('@kth/kth-node-cosmos-db')
-
 const started = new Date()
 
 /**
@@ -30,9 +28,6 @@ function getSwagger(req, res) {
 async function getAbout(req, res) {
   const paths = server.getPaths()
 
-  const client = getClient()
-  const collections = await client.listCollectionsWithThroughput()
-
   res.render('system/about', {
     layout: '',
     appName: packageFile.name,
@@ -46,7 +41,6 @@ async function getAbout(req, res) {
     jenkinsBuildDate: JSON.stringify(version.jenkinsBuildDate),
     dockerName: JSON.stringify(version.dockerName),
     dockerVersion: JSON.stringify(version.dockerVersion),
-    collections,
     hostname: os.hostname(),
     started,
   })
