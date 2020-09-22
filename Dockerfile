@@ -30,6 +30,11 @@ COPY ["swagger.json", "swagger.json"]
 COPY ["server", "server"]
 
 #
+# Set timezone
+#
+ENV TZ=Europe/Stockholm
+
+#
 # Port that the application will expose.
 #
 EXPOSE 3001
