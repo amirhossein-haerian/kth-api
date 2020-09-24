@@ -39,9 +39,6 @@ ENV TZ=Europe/Stockholm
 #
 EXPOSE 3001
 
-# Time Zone
-ENV TZ=Europe/Stockholm
-
 #
 # The command that is executed when an instance of this image is run.
 #
