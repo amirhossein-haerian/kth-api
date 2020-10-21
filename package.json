@@ -5,6 +5,9 @@
   "description": "Node.js based API template application.",
   "main": "app.js",
   "private": true,
+  "engines": {
+    "node": "12"
+  },
   "scripts": {
     "codefix": "pretty-quick",
     "test": "is-ci \"test:jest\" \"test:watch\"",
@@ -13,9 +16,12 @@
     "test-integration-in-docker": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-integration-tests.yml up --abort-on-container-exit --always-recreate-deps",
     "test-unit-in-docker": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-unit-tests.yml up --abort-on-container-exit --always-recreate-deps",
     "start": "NODE_ENV=production node app.js",
-    "start-dev": "cross-env NODE_ENV=development nodemon app.js",
+    "start-dev": "bash -c 'NODE_ENV=development nodemon app.js'",
     "docker": "npm audit fix && npm install --production --no-optional",
-    "docker-build-local": "source docker.conf && docker build --tag $IMAGE_NAME:$IMAGE_VERSION ."
+    "docker:start": "bash ./docker-local.sh start",
+    "docker:stop": "bash ./docker-local.sh stop",
+    "docker:clean": "bash ./docker-local.sh clean",
+    "docker:ps": "docker ps -a"
   },
   "dependencies": {
     "bluebird": "^3.7.2",
@@ -36,37 +42,32 @@
     "kth-node-server": "^3.1.2",
     "mongoose": "^5.10.9",
     "passport": "^0.4.1",
-    "safe-utils": "0.2.1",
-    "swagger-ui-dist": "^3.35.1"
+    "swagger-ui-dist": "^3.35.2"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.15",
     "babel-eslint": "^10.1.0",
-    "cross-env": "^7.0.2",
     "eslint": "^7.11.0",
-    "eslint-config-airbnb": "^18.2.0",
-    "eslint-config-prettier": "^6.12.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.14.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.21.4",
-    "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "^4.3.0",
-    "nodemon": "^2.0.4",
-    "prettier": "^2.1.2",
-    "pretty-quick": "^3.0.2",
     "is-ci-cli": "^2.1.2",
-    "jest": "^26.5.3"
+    "jest": "^26.6.0",
+    "jest-extended": "^0.11.5",
+    "nodemon": "^2.0.6",
+    "prettier": "^2.1.2",
+    "pretty-quick": "^3.1.0"
   },
+  "// (prettier)": "configuration version 2020-06-15 - might also reside in .prettierrc.json",
   "prettier": {
-    "trailingComma": "es5",
-    "tabWidth": 2,
+    "arrowParens": "avoid",
+    "printWidth": 120,
     "semi": false,
     "singleQuote": true,
-    "printWidth": 120,
-    "arrowParens": "avoid"
-  },
-  "engines": {
-    "node": "12"
+    "trailingComma": "es5"
   },
   "husky": {
     "hooks": {

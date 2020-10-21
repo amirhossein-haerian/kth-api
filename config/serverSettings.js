@@ -8,7 +8,6 @@
  *
  */
 const { getEnv, unpackMongodbConfig, unpackApiKeysConfig, devDefaults } = require('kth-node-configuration')
-const { safeGet } = require('safe-utils')
 
 // DEFAULT SETTINGS used for dev, if you want to override these for you local environment, use env-vars in .env
 const devPrefixPath = devDefaults('/api/node')
@@ -26,7 +25,7 @@ module.exports = {
   proxyPrefixPath: {
     uri: getEnv('SERVICE_PUBLISH', devPrefixPath),
   },
-  useSsl: safeGet(() => getEnv('SERVER_SSL', devSsl + '').toLowerCase() === 'true'),
+  useSsl: String(getEnv('SERVER_SSL', devSsl)).toLowerCase() === 'true',
   port: getEnv('SERVER_PORT', devPort),
 
   ssl: {
@@ -47,7 +46,7 @@ module.exports = {
       level: getEnv('LOGGING_LEVEL', 'debug'),
     },
     accessLog: {
-      useAccessLog: safeGet(() => getEnv('LOGGING_ACCESS_LOG'), 'true') === 'true',
+      useAccessLog: String(getEnv('LOGGING_ACCESS_LOG', true)).toLowerCase() === 'true',
     },
   },
 
