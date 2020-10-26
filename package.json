@@ -79,7 +79,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "CI=1 npm run test && npm run docker:pre-push",
+      "pre-push": "npm run test && npm run docker:pre-push",
       "pre-commit": "pretty-quick --staged"
     }
   }
