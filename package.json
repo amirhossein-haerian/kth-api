@@ -9,9 +9,7 @@
     "node": "12"
   },
   "scripts": {
-    "codefix": "pretty-quick",
-    "test": "is-ci \"test:jest\" \"test:watch\"",
-    "test:jest": "jest",
+    "test": "jest",
     "test:watch": "jest --watch",
     "test-integration-in-docker": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-integration-tests.yml up --abort-on-container-exit --always-recreate-deps",
     "test-unit-in-docker": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-unit-tests.yml up --abort-on-container-exit --always-recreate-deps",
@@ -21,7 +19,8 @@
     "docker:start": "bash ./docker-local.sh start",
     "docker:stop": "bash ./docker-local.sh stop",
     "docker:clean": "bash ./docker-local.sh clean",
-    "docker:ps": "docker ps -a"
+    "docker:ps": "docker ps -a",
+    "docker:pre-push": "bash -c 'if [ -f .env ]; then source .env; fi; if [ \"$RUN_DOCKER_BUILD_BEFORE_GIT_PUSH\" == \"true\" ]; then docker build .; fi'"
   },
   "dependencies": {
     "bluebird": "^3.7.2",
@@ -54,7 +53,6 @@
     "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.3.0",
-    "is-ci-cli": "^2.1.2",
     "jest": "^26.6.0",
     "jest-extended": "^0.11.5",
     "nodemon": "^2.0.6",
@@ -69,9 +67,19 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
+  "// (jest)": "configuration version 2020-06-15 (API+NPM) - might also reside as module.exports in jest.config.js",
+  "jest": {
+    "clearMocks": true,
+    "notifyMode": "failure-change",
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ],
+    "testEnvironment": "node",
+    "verbose": true
+  },
   "husky": {
     "hooks": {
-      "pre-push": "CI=1 npm run test",
+      "pre-push": "CI=1 npm run test && npm run docker:pre-push",
       "pre-commit": "pretty-quick --staged"
     }
   }
