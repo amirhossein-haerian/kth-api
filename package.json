@@ -19,7 +19,6 @@
     "docker:start": "bash ./docker-local.sh start",
     "docker:stop": "bash ./docker-local.sh stop",
     "docker:clean": "bash ./docker-local.sh clean",
-    "docker:pre-push": "bash ./docker-local.sh pre-push",
     "docker:ps": "docker ps -a"
   },
   "dependencies": {
@@ -79,7 +78,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run test && npm run docker:pre-push",
+      "pre-push": "npm run test",
       "pre-commit": "pretty-quick --staged"
     }
   }
