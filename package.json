@@ -15,11 +15,7 @@
     "test-unit-in-docker": "ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-unit-tests.yml up --abort-on-container-exit --always-recreate-deps",
     "start": "NODE_ENV=production node app.js",
     "start-dev": "bash -c 'NODE_ENV=development nodemon app.js'",
-    "docker": "npm audit fix && npm install --production --no-optional",
-    "docker:start": "bash ./docker-local.sh start",
-    "docker:stop": "bash ./docker-local.sh stop",
-    "docker:clean": "bash ./docker-local.sh clean",
-    "docker:ps": "docker ps -a"
+    "docker": "npm audit fix && npm install --production --no-optional"
   },
   "dependencies": {
     "bluebird": "^3.7.2",
