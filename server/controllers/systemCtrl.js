@@ -1,17 +1,48 @@
 'use strict'
 
-const packageFile = require('../../package.json')
-const server = require('../server')
-const { getPaths } = require('kth-node-express-routing')
-const db = require('kth-node-mongo')
-const version = require('../../config/version')
 const os = require('os')
-
 const Promise = require('bluebird')
 const registry = require('component-registry').globalRegistry
+
+const db = require('kth-node-mongo')
+const { getPaths } = require('kth-node-express-routing')
 const { IHealthCheck } = require('kth-node-monitor').interfaces
 
-const started = new Date()
+const version = require('../../config/version')
+const packageFile = require('../../package.json')
+
+const server = require('../server')
+
+/**
+ * Adds a zero (0) to numbers less then ten (10)
+ */
+function zeroPad(value) {
+  return value < 10 ? '0' + value : value
+}
+
+function getTimezone(timezoneOffset) {
+  const hoursBeforeGMT = -timezoneOffset / 60
+  if (hoursBeforeGMT >= 0 && hoursBeforeGMT <= 2) {
+    return ['GMT', 'CET', 'CEST'][hoursBeforeGMT]
+  }
+  return hoursBeforeGMT < 0 ? `GMT${zeroPad(hoursBeforeGMT)}:00` : `GMT+${zeroPad(hoursBeforeGMT)}:00`
+}
+
+/**
+ * Takes a Date object and returns a simple date string.
+ */
+function _simpleDate(date) {
+  const year = date.getFullYear()
+  const month = zeroPad(date.getMonth() + 1)
+  const day = zeroPad(date.getDate())
+  const hours = zeroPad(date.getHours())
+  const minutes = zeroPad(date.getMinutes())
+  const seconds = zeroPad(date.getSeconds())
+  const timezone = getTimezone(date.getTimezoneOffset())
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${timezone}`
+}
+
+const started = _simpleDate(new Date())
 
 /**
  * GET /swagger.json
