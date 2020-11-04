@@ -159,3 +159,11 @@ or need tests, a simple `echo "ok"` will suffice.
 [tape]: https://github.com/substack/tape
 [sample-test]: test/unit/specs/sampleCtrl-test.js
 [swagger]: http://swagger.io/
+
+#### Linting
+
+_From Wikipedia: lint, or a linter, is a static code analysis tool used to flag programming errors, bugs, stylistic errors, and suspicious constructs._
+
+We use ESLint for our linting and our default config comes from the module [eslint-config-kth](https://github.com/KTH/eslint-config-kth)
+
+See .eslintrc file
