@@ -1,17 +1,14 @@
 'use strict'
 
 const os = require('os')
-const Promise = require('bluebird')
-const registry = require('component-registry').globalRegistry
 
+const registry = require('component-registry').globalRegistry
 const db = require('kth-node-mongo')
 const { getPaths } = require('kth-node-express-routing')
 const { IHealthCheck } = require('kth-node-monitor').interfaces
 
 const version = require('../../config/version')
 const packageFile = require('../../package.json')
-
-const server = require('../server')
 
 /**
  * Adds a zero (0) to numbers less then ten (10)
@@ -50,7 +47,7 @@ function getSwagger(req, res) {
  * About page
  */
 async function getAbout(req, res) {
-  const paths = server.getPaths()
+  const paths = getPaths()
 
   res.render('system/about', {
     layout: '',
