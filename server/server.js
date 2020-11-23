@@ -1,3 +1,5 @@
+/* eslint-disable import/order */
+
 'use strict'
 
 const server = require('kth-node-server')

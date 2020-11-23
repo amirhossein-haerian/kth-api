@@ -87,10 +87,6 @@ function buildRes(overrides = {}) {
   return res
 }
 
-function buildNext(impl) {
-  return jest.fn(impl).mockName('next')
-}
-
 describe(`System controller`, () => {
   const OLD_ENV = process.env
 
