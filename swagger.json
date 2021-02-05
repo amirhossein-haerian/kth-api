@@ -6,9 +6,7 @@
     "version": "1.0.0"
   },
   "basePath": "/api/node",
-  "produces": [
-    "application/json"
-  ],
+  "produces": ["application/json"],
   "paths": {
     "/_checkAPIkey": {
       "get": {
@@ -16,9 +14,7 @@
         "summary": "GET a test endpoint that is protected by api key to validate that consumer has a proper api key",
         "description": "",
         "parameters": [],
-        "tags": [
-          "system"
-        ],
+        "tags": ["system"],
         "responses": {
           "200": {
             "description": "An empty response"
@@ -30,13 +26,7 @@
             }
           }
         },
-        "security": [
-          {
-            "api_key": [
-              "read"
-            ]
-          }
-        ]
+        "security": [{ "api_key": ["read"] }]
       }
     },
     "/v1/data/{id}": {
@@ -53,9 +43,7 @@
             "type": "string"
           }
         ],
-        "tags": [
-          "v1"
-        ],
+        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "The requested data",
@@ -70,11 +58,7 @@
             }
           }
         },
-        "security": [{
-          "api_key": [
-            "read"
-          ]
-        }]
+        "security": [{ "api_key": ["read"] }]
       },
       "post": {
         "operationId": "postDataById",
@@ -98,9 +82,7 @@
             }
           }
         ],
-        "tags": [
-          "v1"
-        ],
+        "tags": ["v1"],
         "responses": {
           "200": {
             "description": "A successful save"
@@ -112,11 +94,7 @@
             }
           }
         },
-        "security": [{
-          "api_key": [
-            "write"
-          ]
-        }]
+        "security": [{ "api_key": ["write"] }]
       }
     }
   },
@@ -124,11 +102,7 @@
     "api_key": {
       "type": "apiKey",
       "name": "api_key",
-      "in": "header",
-      "scopes": {
-        "read": "Read access to data",
-        "write": "Write access to data"
-      }
+      "in": "header"
     }
   },
   "definitions": {
