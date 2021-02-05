@@ -2,26 +2,24 @@
 
 ## Template project for RESTful API:s
 
-In an attempt to simplify the process of starting up new Node.js based projects, there exists two template projects
-to use as a foundation.
+In an attempt to simplify the process of starting up new Node.js based projects, there exists two template projects to use as a foundation.
 
 The two projects are [node-web][web], a web server with express, and [node-api][api], a RESTful API.
 The node-web project CAS as a mechanism for authorisation and authentication.
 
-#### Where can I find the template projects?
+### Where can I find the template projects?
 
 - [https://github.com/KTH/node-api.git][api]
 - [https://github.com/KTH/node-web.git][web]
 
-It's important that we try to make changes that affect the template projects in the template projects themselves
-to make sure that all other projects based on the templates get the good stuff.
+It's important that we try to make changes that affect the template projects in the template projects themselves to make sure that all other projects based on the templates get the good stuff.
 
-#### How do I use this template project for a project of my own?
+### How do I use this template project for a project of my own?
 
 1. Create a new repository on Gita or Github.
 2. Clone the node-api repository by using:
 
-   ```bash
+   ```sh
    git clone git@github.com:KTH/node-api.git NEW_REPOSITORY_NAME
    ```
 
@@ -29,22 +27,22 @@ to make sure that all other projects based on the templates get the good stuff.
 
 4. Change remote repo
 
-   ```bash
+   ```sh
    git remote add origin https://github.com/KTH/<NEW_REPOSITORY_NAME>.git
    ```
 
-### How to configure the applications
+## How to configure the applications
 
 Make sure you have a MongoDb connected. An easy way to add a MongoDb is to clone and start the following database repo on your local machine: https://gita.sys.kth.se/infosys/kth-node-backend
 
-```
+```sh
 # Logging
 LOGGING_ACCESS_LOG=/Users/hoyce/repos/github/node-api/logs
 ```
 
 Set your basePath property in `swagger.json`:
 
-```
+```json
 {
   "swagger": "2.0",
   "info": {
@@ -57,83 +55,44 @@ Set your basePath property in `swagger.json`:
 
 Please, remember to set path to match your application.
 
-#### What is `swagger-ui`?
+### What is `swagger-ui`?
 
-The `swagger-ui` package is simply used to provide a basic UI for
-testing the API. It is not directly required in the code, which
-means running checks like `npm-check` will claim it is unused.
-It cannot be stressed enough, **do not remove this package**!
+The `swagger-ui` package is simply used to provide a basic UI for testing the API. It is not directly required in the code, which means running checks like `npm-check` will claim it is unused. It cannot be stressed enough, **do not remove this package**!
 
-#### What can I customize?
+### What can I customize?
 
-Follow the instructions for the files and folders below. For
-any files and folders not listed, avoid editing them in a your
-custom project.
+Follow the instructions for the files and folders below. For any files and folders not listed, avoid editing them in your custom project.
 
-- `server/models/`
+- `/config`
 
-  Anything in this folder can be edited to fit your project.
-  You can safely remove the `sample.js` file and add your own
-  mongoose-based schemas and models.
+  Any and all configuration goes here. In particular you must edit the `serverSettings.js` file to match your project's proxy prefix path (e.g. `/api/node`). Other things you may want to edit are the environment specific files for the database connection config.
 
-- `server/init/routing/sampleRoutes.js`
+  > **Important:**
+  > Remember not to put any sensible data into serverSettings.js. Secrets should be always be read from environment variables or the file "/.env".
 
-  This file contains routing config for the sample controller.
-  You can either rename or remove this file. Other files in this
-  folder should only be edited in the template project. The paths
-  for the routes come from the `swagger.json` file.
+- `/server/models`
 
-- `server/controllers/sampleCtrl.js`
+  Anything in this folder can be edited to fit your project. You can safely remove the `sample.js` file and add your own mongoose-based schemas and models.
 
-  This file contains the sample controller. You can either rename
-  or remove this file. You can add your own controllers to this
-  folder. Remember to add your custom controllers to the `index.js`
-  file.
+- `/server.js`
 
-- `swagger.json`
+  Along with many other things, this file contains the routing config for the sample controller. Most of the content should only be edited in the template project. The paths for the routes come from the `swagger.json` file.
 
-  This file contains the API configuration and documentation.
-  You should add your own paths to this file. See the [Swagger
-  website][swagger] for documentation on the `swagger.json` format.
+- `/server/controllers/sampleCtrl.js`
 
-- `start.sh` and `stop.sh`
+  This file contains the sample controller. You can either rename or remove this file. You can add your own controllers to this folder. Remember to add your custom controllers to the `index.js` file.
 
-  Make sure to update the project name in these files.
+- `/swagger.json`
 
-- `package.json`
+  This file contains the API configuration and documentation. You should add your own paths to this file. See the [Swagger website](https://swagger.io/) for documentation on the `swagger.json` format.
 
-  Update the project name and add any dependencies you need.
-  Excluding the testing scripts, avoid editing the scripts.
+- `/package.json`
 
-- `server/server.js`
+  Update the project name and add any dependencies you need. Excluding the testing scripts, avoid editing the scripts.
 
-  Add additional startup code to the init callback.
+## Common errors
 
-- `test/`
-
-  As explained below, you can completely remove all tests if
-  you like. If you want to use testing in your project, here's
-  the recommended place to put your test files.
-
-- `server/lib/`
-
-  Here you can put custom code that does not fit in any other
-  place. Though do not edit the `routing.js` file.
-
-- `config/`
-
-  Any and all configuration goes here. In particular you must
-  edit the `commonSettings.js` file to match your project's
-  proxy prefix path (i.e. `/api/node`). Other files you may
-  want to edit are the environment specific files for the
-  database connection config. Finally the `localSettings.js`
-  file should never be checked into source control as it's
-  used to contain sensitive information. You can also
-  override other settings in this file.
-
-- `.gitignore`
-
-#### Common errors
+### useSsl
 
 When trying to run node-api as a standalone you might encounter the following error:
 
@@ -141,29 +100,23 @@ When trying to run node-api as a standalone you might encounter the following er
 return binding.open(pathModule._makeLong(path), stringToFlags(flags), mode);
 ```
 
-This is because the SSL information is incorrect in localSettings.js. Set `useSsl: false` to avoid this.
+This is because the SSL information is incorrect in "/config/serverSettings.js". Set `useSsl: false` to avoid this.
 
-#### Testing
+## Testing
 
-The template project uses a [sample setup][sample-test] for
-tests using [tape][tape]. It is not required to use this test
-harness in your projects. Simply remove the sample code and
-any reference to it in your project's `package.json` file.
+You find some useful hints for developers in the file "[TESTING.md](TESTING.md)".
 
-Keep in mind that you still need to provide a working npm
-script for `npm test` for the build server. If you don't want
-or need tests, a simple `echo "ok"` will suffice.
+> **Please note:**
+> You might decide to remove all unit-tests from your application. Keep in mind that you still need to provide a working npm script for `npm test` for the build server. If you don't want or need tests, a simple `echo "ok"` will suffice.
 
-[api]: https://github.com/KTH/node-api
-[web]: https://github.com/KTH/node-web
-[tape]: https://github.com/substack/tape
-[sample-test]: test/unit/specs/sampleCtrl-test.js
-[swagger]: http://swagger.io/
-
-#### Linting
+## Linting
 
 _From Wikipedia: lint, or a linter, is a static code analysis tool used to flag programming errors, bugs, stylistic errors, and suspicious constructs._
 
-We use ESLint for our linting and our default config comes from the module [eslint-config-kth](https://github.com/KTH/eslint-config-kth)
+We use ESLint for our linting and our default config comes from the module [@kth/eslint-config-kth](https://github.com/KTH/eslint-config-kth)
 
 See .eslintrc file
+
+[api]: https://github.com/KTH/node-api
+[web]: https://github.com/KTH/node-web
+[swagger]: http://swagger.io/
