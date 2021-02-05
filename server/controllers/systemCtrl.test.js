@@ -11,57 +11,6 @@ const applicationPaths = {
   },
 }
 
-// Mock functions
-
-jest.mock('../server', () => {
-  return {
-    getPaths: jest.fn().mockImplementation(() => {
-      return {
-        system: {
-          monitor: {
-            uri: '/_monitor',
-          },
-          robots: {
-            uri: '/robots.txt',
-          },
-        },
-      }
-    }),
-  }
-})
-
-jest.mock('kth-node-express-routing', () => {
-  return {
-    getPaths: jest.fn().mockImplementation(() => {
-      return {
-        system: {
-          monitor: {
-            uri: '/_monitor',
-          },
-          robots: {
-            uri: '/robots.txt',
-          },
-        },
-      }
-    }),
-  }
-})
-
-jest.mock('component-registry', () => {
-  return {
-    globalRegistry: {
-      getUtility: jest.fn().mockImplementation(() => {
-        return {
-          status: jest.fn(() => {
-            return { statusCode: 200 }
-          }),
-          renderJSON: jest.fn(() => '{status:200}'),
-        }
-      }),
-    },
-  }
-})
-
 /*
  * utility functions
  */
@@ -72,11 +21,7 @@ function buildReq(overrides) {
 
 function buildRes(overrides = {}) {
   const res = {
-    json: jest
-      .fn(() => {
-        return res
-      })
-      .mockName('json'),
+    json: jest.fn(() => res).mockName('json'),
     status: jest.fn(() => res).mockName('status'),
     type: jest.fn(() => res).mockName('type'),
     send: jest.fn(() => res).mockName('send'),
@@ -103,11 +48,9 @@ describe(`System controller`, () => {
     const req = buildReq({})
     const res = buildRes()
 
-    jest.mock('kth-node-monitor', () => {
-      return {
-        interfaces: jest.fn(),
-      }
-    })
+    jest.mock('kth-node-monitor', () => ({
+      interfaces: jest.fn(),
+    }))
 
     const { monitor } = require('./systemCtrl')
 

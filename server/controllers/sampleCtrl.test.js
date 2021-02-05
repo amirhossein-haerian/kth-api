@@ -3,45 +3,26 @@ const { getData, postData } = require('./sampleCtrl')
 // Test data
 //
 
-jest.mock('../server', () => {
-  return {
-    getPaths: jest.fn().mockImplementation(() => {
-      return {
-        system: {
-          monitor: {
-            uri: '/_monitor',
-          },
-          robots: {
-            uri: '/robots.txt',
-          },
-        },
-      }
-    }),
-  }
-})
-
-jest.mock('../models', () => {
-  return {
-    Sample: {
-      findById: jest.fn().mockImplementation(_id => {
-        if (!_id || _id === 'abc') return null
-        if (_id === 'fail')
-          return {
-            _id,
-            name: 'mockdata',
-            save: jest.fn().mockImplementation(() => {
-              throw new Error('Failed to save')
-            }),
-          }
+jest.mock('../models', () => ({
+  Sample: {
+    findById: jest.fn().mockImplementation(_id => {
+      if (!_id || _id === 'abc') return null
+      if (_id === 'fail')
         return {
           _id,
           name: 'mockdata',
-          save: jest.fn().mockImplementation(() => {}),
+          save: jest.fn().mockImplementation(() => {
+            throw new Error('Failed to save')
+          }),
         }
-      }),
-    },
-  }
-})
+      return {
+        _id,
+        name: 'mockdata',
+        save: jest.fn().mockImplementation(() => {}),
+      }
+    }),
+  },
+}))
 
 /*
  * utility functions
@@ -53,11 +34,7 @@ function buildReq(overrides) {
 
 function buildRes(overrides = {}) {
   const res = {
-    json: jest
-      .fn(() => {
-        return res
-      })
-      .mockName('json'),
+    json: jest.fn(() => res).mockName('json'),
     status: jest.fn(() => res).mockName('status'),
     type: jest.fn(() => res).mockName('type'),
     send: jest.fn(() => res).mockName('send'),
