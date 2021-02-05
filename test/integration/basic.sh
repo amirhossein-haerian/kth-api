@@ -3,9 +3,9 @@
 error() { printf "\n \033[0;31mERROR: $@\033[0;0m | $(date) \n"; }
 passed() { printf "\n \033[0;32m   OK: $@\033[0;0m | $(date) \n\n"; }
 
-MONITOR_URL="http://api:3001/node-api/_monitor";
+MONITOR_URL="$INTEGRATION_TEST_BASEURL/_monitor"
 
-PATTERN="APPLICATION_STATUS: OK" #env in set in file: docker-compose-integration-tests.yml
+PATTERN="APPLICATION_STATUS: OK" # env set in file: docker-compose-integration-tests.yml
 
 sleep 5s
 
@@ -17,5 +17,5 @@ if [[ $RESPONSE != *$PATTERN* ]]; then
 fi
 
 passed "Basic test passed for '$MONITOR_URL'."
-    
+
 exit 0

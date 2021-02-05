@@ -1,0 +1,32 @@
+version: '3.6'
+
+services:
+  db:
+    image: mongo:latest
+    ports:
+      - 27017
+
+  api:
+    image: $LOCAL_IMAGE_ID
+    environment:
+      SERVICE_PUBLISH: '/api/node'
+      SERVER_PORT: 3001
+      API_KEYS: '?name=devClient&apiKey=1234&scope=write&scope=read'
+      MONGODB_URI: 'mongodb://db'
+      WAIT_HOSTS: 'db:27017'
+      WAIT_HOSTS_TIMEOUT: 30
+    ports:
+      - 3001
+    depends_on:
+      - db
+
+  integration-tests:
+    build: ./test/integration
+    environment:
+      INTEGRATION_TEST_BASEURL: 'http://api:3001/api/node'
+      INTEGRATION_TEST_SUCCESS_DELAY: '${SUCCESS_DELAY:-0}'
+      INTEGRATION_TEST_FAILURE_DELAY: '${FAILURE_DELAY:-0}'
+      WAIT_HOSTS: 'api:3001'
+      WAIT_HOSTS_TIMEOUT: 40
+    depends_on:
+      - api
