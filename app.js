@@ -1,5 +1,3 @@
-'use strict'
-
 require('dotenv').config()
 
 const log = require('kth-node-log')
