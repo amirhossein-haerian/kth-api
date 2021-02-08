@@ -68,9 +68,21 @@ Several ways are pre-configured for running the unit-tests.
   > **Hint:**
   > This might also be an easy and good way to ensure that the Docker image of your application can be build without problems in the CI/CD pipeline.
 
-### Unit-tests as part of the CI/CD pipeline
+### Automatic unit-tests as a hook before pushing to GitHub
 
-- As long as you keep the file `/docker-compose-unit-tests.yml`, the build-pipeline at KTH will run the unit-tests with Docker right after any new Docker image was successfully created.
+- Before you can push local commits to your repository at GitHub, the unit-tests will always be run as a "pre-push" hook in order to avoid the publication of defective application states.
+
+  > **We strongly advise you against** taking away "husky" or the "pre-push" hook in `package.json`.
+
+### Automatic unit-tests as part of the CI/CD pipeline
+
+- **By default, this function is deactivated.** No unit-tests are run in the pipeline.
+
+  > This is done by having the file `/docker-compose-unit-tests` with the extension `.yml.in`.
+
+- If you rename the file to `/docker-compose-unit-tests.yml`, the build-pipeline at KTH will automatically run the unit-tests with Docker right after any new application image was successfully created.
+
+  > **Please note:**<br>This might significantly slow down the build-process. Before the unit-tests are run in the pipeline, the Docker container must install your application's full development environment with `npm install`.
 
   > You find more information in the Git repository of KTH's package "Evolene": https://github.com/KTH/evolene/blob/master/README.md#testing
 
@@ -86,11 +98,11 @@ The integration-tests are based on scripts for Bash and Node.js. They can be run
 
 - You'll find this YAML-file in the project's root. It is used to run the integration-tests with docker-compose locally as well as in the CI/CD pipeline.
 
-  > Change the filename or remove the file if you don't want the integration-tests to become active in the CI/CD pipeline.
+  > Change the file's extension (e.g. to `.yml.in`) if you don't want the integration-tests to become active in the CI/CD pipeline.
 
 ### `/test/integration`
 
-- Almost everything needed for the integration-tests can be found in this directory, e.g.
+- Everything else needed for the integration-tests can be found in this directory, e.g.
 
   ```
   .dockerignore
@@ -101,9 +113,9 @@ The integration-tests are based on scripts for Bash and Node.js. They can be run
   Dockerfile
   ```
 
-### `all-tests.sh`
+- **`all-tests.sh`**
 
-- This Bash-script invokes all integration-tests. If one of the test fails, the whole script must fail with a non-zero exit-code.
+  This Bash-script invokes all integration-tests. If one of the test fails, the whole script must fail with a non-zero exit-code.
 
   Example:
 
@@ -114,15 +126,15 @@ The integration-tests are based on scripts for Bash and Node.js. They can be run
   exit 0
   ```
 
-### `basic.sh`
+- **`basic.sh`**
 
-- This script uses cURL to access the monitor-page of your application, e.g. at http://localhost:3001/api/node/\_monitor. It expects the output to contain "APPLICATION_STATUS: OK". Otherwise the integration-test will fail.
+  This script uses cURL to access the monitor-page of your application, e.g. at http://localhost:3001/api/node/\_monitor. It expects the output to contain "APPLICATION_STATUS: OK". Otherwise the integration-test will fail.
 
   > Feel free to add some more simple integration-tests in this file.
 
-### `check-_paths.js` and `check-_paths.json`
+- **`check-_paths.js`**
 
-- The script `check-_paths.js` is used to fetch the list of endpoints from `_paths`, to ignore some special endpoints and to send a request to all other URIs of the application. It expects the response code of every request to be **HTTP 401 (Unauthorized)** as long as no exceptions are defined in `check-_paths.json`. Otherwise the integration-test will fail.
+  The script `check-_paths.js` is used to fetch the list of endpoints from `_paths`, to ignore some special endpoints and to send a request to all other URIs of the application. It expects the response code of every request to be **HTTP 401 (Unauthorized)** as long as no exceptions are defined in `check-_paths.json`. Otherwise the integration-test will fail.
 
   > Normally, you should use the file "swagger.json" to define all endpoints which the REST API should provide. The code in `/server/server.js` will parse this information to configure the Express.js server. At the same time, a special endpoint-list will be created which is made accessible via `getPaths()` in the code and `_paths` in the REST_API.
   >
@@ -132,7 +144,9 @@ The integration-tests are based on scripts for Bash and Node.js. They can be run
 
   > As a general rule, those real data-endpoints defined in "swagger.json" should be protected by some kind of authentication mechanism, e.g. "api_key". Exactly this shall be assured by `check-_paths.js`.
 
-- The JSON-configuration inside `check-_paths.json` can be changed to fit the structure of your REST API:
+- **`check-_paths.json`**
+
+  The JSON-configuration inside `check-_paths.json` can be changed to fit the structure of your REST API:
 
   ```json
   {
@@ -216,9 +230,9 @@ The integration-tests are based on scripts for Bash and Node.js. They can be run
   > **Hint:**
   > This might also be an easy and good way to ensure that your application can be run without problems after a new Docker image was build in the CI/CD pipeline.
 
-### Integration-tests as part of the CI/CD pipeline
+### Automatic integration-tests as part of the CI/CD pipeline
 
-- As long as you keep the file `/docker-compose-integration-tests.yml`, the build-pipeline at KTH will run the integration-tests with Docker right after any new Docker image was successfully created.
+- As long as you keep the filename `/docker-compose-integration-tests.yml`, the build-pipeline at KTH will run the integration-tests with Docker right after any new Docker image was successfully created.
 
   > You find more information in the Git repository of KTH's package "Evolene": https://github.com/KTH/evolene/blob/master/README.md#testing
 
