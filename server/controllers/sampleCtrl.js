@@ -15,7 +15,7 @@ async function getData(req, res, next) {
     }
 
     if (!doc) {
-      return next()
+      return res.status(404).json({ message: 'document not found' })
     }
 
     return res.json({ id: doc._id, name: doc.name })
