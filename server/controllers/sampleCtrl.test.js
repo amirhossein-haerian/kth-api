@@ -6,8 +6,10 @@ const { getData, postData } = require('./sampleCtrl')
 jest.mock('../models', () => ({
   Sample: {
     findById: jest.fn().mockImplementation(_id => {
-      if (!_id || _id === 'abc') return null
-      if (_id === 'fail')
+      if (!_id || _id === 'abc') {
+        return null
+      }
+      if (_id === 'fail') {
         return {
           _id,
           name: 'mockdata',
@@ -15,6 +17,7 @@ jest.mock('../models', () => ({
             throw new Error('Failed to save')
           }),
         }
+      }
       return {
         _id,
         name: 'mockdata',
@@ -78,7 +81,7 @@ describe(`Sample controller`, () => {
 
     await getData(req, res, next)
 
-    expect(next).toHaveBeenNthCalledWith(1)
+    expect(res.json).toHaveBeenNthCalledWith(1, { message: 'document not found' })
   })
 
   test('should postData update ok', async () => {

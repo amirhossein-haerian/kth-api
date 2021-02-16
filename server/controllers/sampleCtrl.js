@@ -1,18 +1,17 @@
-'use strict'
-
 /**
  * Sample API controller. Can safely be removed.
  */
 const { Sample } = require('../models')
 
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {Function} next
+ */
 async function getData(req, res, next) {
   try {
     let doc = {}
-    if (process.env.NODE_MOCK) {
-      doc = await { _id: req.params.id, name: 'mockdata' }
-    } else {
-      doc = await Sample.findById(req.params.id)
-    }
+    doc = await Sample.findById(req.params.id)
 
     if (!doc) {
       return res.status(404).json({ message: 'document not found' })
@@ -24,6 +23,11 @@ async function getData(req, res, next) {
   }
 }
 
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {Function} next
+ */
 async function postData(req, res, next) {
   try {
     let doc = await Sample.findById(req.params.id)
