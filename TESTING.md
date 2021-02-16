@@ -10,7 +10,7 @@ This file contains some hints for developers related to testing:
 
 ## Framework
 
-We run our unit-tests with [Jest](https://jestjs.io/).
+The unit-tests are run with [Jest](https://jestjs.io/).
 
 ## Directories
 
@@ -240,14 +240,16 @@ The integration-tests are based on scripts for Bash and Node.js. They can be run
 
 # Swagger validation
 
-[Swagger](https://swagger.io/) and the file "swagger.json" are used to define and access the endpoints of the application's REST API. The structure of "swagger.json" must follow the OPEN API specifications in version 2.0: https://swagger.io/specification/v2/
+[Swagger](https://swagger.io/) and the file "swagger.json" are used to define, access and describe the endpoints of the application's REST API. The structure of "swagger.json" must follow the OPEN API specifications in version 2.0: https://swagger.io/specification/v2/
 
 > **Please note:**
 > There is also a version 3.0 of the [OPEN API specification](https://en.wikipedia.org/wiki/OpenAPI_Specification) available. This version is compatible with Swagger. It might still cause problems in your application because of some other code which relies on OPEN API 2.0, e.g. in the package "[kth-node-api-common](https://github.com/KTH/kth-node-api-common)".
 
 ## Usage
 
-### Find syntax errors in "swagger.json"
+> The validation is run with help of [swagger-parser](https://www.npmjs.com/package/swagger-parser).
+
+### Find syntax errors in "swagger.json" once
 
 - Init the test-run:
 
@@ -255,4 +257,8 @@ The integration-tests are based on scripts for Bash and Node.js. They can be run
   npm run validate:swagger
   ```
 
-  > The test is run with help of [swagger-cli](https://www.npmjs.com/package/swagger-cli).
+### Find syntax errors in "swagger.json" as soon as file is changed
+
+- ```sh
+  npm run validate:swagger-watch
+  ```
