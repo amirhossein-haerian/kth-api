@@ -3,12 +3,15 @@
 /**
  * This script validates the project's swagger.json file.
  * It exits with code 0 iff no errors could be found.
+ *
+ * All output is written to STDERR
+ * so that it's also visible when run as Git pre-push hook.
  */
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const SwaggerParser = require('swagger-parser')
 
-console.log('\nValidating swagger.json')
+process.stderr.write('\nValidating swagger.json\n')
 
 async function mainAsync() {
   try {
@@ -26,7 +29,7 @@ async function mainAsync() {
     process.exit(1)
   }
 
-  console.log('OK')
+  process.stderr.write('OK\n')
 }
 
 mainAsync()
