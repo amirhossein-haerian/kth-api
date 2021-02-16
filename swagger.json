@@ -6,24 +6,25 @@
     "version": "1.0.0"
   },
   "basePath": "/api/node",
+  "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
     "/_checkAPIkey": {
       "get": {
-        "operationId": "checkAPIkey",
-        "summary": "GET a test endpoint that is protected by api key to validate that consumer has a proper api key",
-        "description": "",
-        "parameters": [],
         "tags": ["system"],
+        "operationId": "checkAPIkey",
+        "summary": "Test authentication setup",
+        "description": "Secured test endpoint which can be used to validate that a client has a working authentication setup\n\n_(System.checkAPIKey)_",
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "An empty response"
+            "description": "The given authentication is **accepted**"
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "description": "Unexpected response - internal error"
           }
         },
         "security": [{ "api_key": ["read"] }]
@@ -31,67 +32,57 @@
     },
     "/v1/data/{id}": {
       "get": {
+        "tags": ["data"],
         "operationId": "getDataById",
-        "summary": "Get data",
-        "description": "Gets some form of data that only requires read access",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of data to get",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": ["v1"],
+        "summary": "Data with ID",
+        "description": "Returns the earlier stored data-object with the given ID.\n\n_(Sample.getData)_\n\n",
+        "parameters": [{ "$ref": "#/parameters/DataId" }],
         "responses": {
           "200": {
             "description": "The requested data",
+            "schema": { "$ref": "#/definitions/DataObject" }
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
+          "404": {
+            "description": "No data found for given ID",
             "schema": {
-              "$ref": "#/definitions/Data"
+              "type": "object",
+              "properties": { "message": { "type": "string", "example": "document not found" } }
             }
           },
           "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "description": "Unexpected response - internal error"
           }
         },
         "security": [{ "api_key": ["read"] }]
       },
       "post": {
+        "tags": ["data"],
         "operationId": "postDataById",
-        "summary": "Saves an object in the database",
-        "description": "Saves changes to an object in the database",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of the data to save",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "data",
-            "in": "body",
-            "description": "The data to save",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Data"
-            }
-          }
-        ],
-        "tags": ["v1"],
+        "summary": "Store data",
+        "description": "Saves the given data-object, overwriting any old data with the same ID.\n\n_(Sample.postData)_",
+        "parameters": [{ "$ref": "#/parameters/DataId" }, { "$ref": "#/parameters/DataObject" }],
         "responses": {
           "200": {
-            "description": "A successful save"
+            "description": "The stored data object",
+            "schema": { "$ref": "#/definitions/DataObject" }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string", "example": "Sample validation failed: name: Name is required." }
+              }
+            }
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "default": {
-            "description": "Unexpected error",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+            "description": "Unexpected response - internal error"
           }
         },
         "security": [{ "api_key": ["write"] }]
@@ -105,45 +96,30 @@
       "in": "header"
     }
   },
+  "parameters": {
+    "DataId": {
+      "in": "path",
+      "description": "ID of data object, e.g. \"123\"",
+      "name": "id",
+      "required": true,
+      "type": "string"
+    },
+    "DataObject": {
+      "in": "body",
+      "description": "Data to save with given ID",
+      "name": "data",
+      "required": true,
+      "schema": {
+        "type": "object",
+        "properties": { "name": { "type": "string", "example": "John Doe" } }
+      }
+    }
+  },
   "definitions": {
-    "Data": {
+    "DataObject": {
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier representing some specific data"
-        },
-        "name": {
-          "type": "string",
-          "description": "Description of the data"
-        }
-      }
-    },
-    "Error": {
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        },
-        "fields": {
-          "type": "string"
-        }
-      }
-    },
-    "UserList": {
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        },
-        "fields": {
-          "type": "string"
-        }
+        "id": { "type": "string", "example": "123" },
+        "name": { "type": "string", "example": "John Doe" }
       }
     }
   }

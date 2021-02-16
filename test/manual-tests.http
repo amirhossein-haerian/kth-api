@@ -1,0 +1,54 @@
+#
+# This file allows manual testing together with
+# the extension "REST Client" in Visual Studio Code
+#
+
+# @host = https://api.kth.se/api/node
+# @api_key =
+# @host = https://api-r.referens.sys.kth.se/api/node
+# @api_key = 
+@host = http://localhost:3001/api/node
+@api_key = 1234
+
+##########
+#        #
+# SYSTEM #
+#        #
+##########
+
+####### System.checkAPIKey #######
+
+GET {{host}}/_checkAPIkey HTTP/1.1
+Accept: application/json
+api_key: {{api_key}}
+
+# OK
+
+########
+#      #
+# DATA #
+#      #
+########
+
+@id = 1234
+
+####### Sample.getData #######
+
+GET {{host}}/v1/data/{{id}} HTTP/1.1
+Accept: application/json
+api_key: {{api_key}}
+
+# OK
+
+####### Sample.postData #######
+
+POST {{host}}/v1/data/{{id}} HTTP/1.1
+Accept: application/json
+api_key: {{api_key}}
+Content-Type: application/json
+
+{
+  "name": "John Doe"
+}
+
+# OK
