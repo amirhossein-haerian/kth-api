@@ -6,6 +6,7 @@
   "main": "app.js",
   "private": true,
   "scripts": {
+    "prettier:all": "prettier --write \"**/*.js\"",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:unit-in-docker": "docker build --progress plain -t node-api . && bash -c 'LOCAL_IMAGE_ID=node-api docker-compose -f docker-compose-unit-tests.yml* up --abort-on-container-exit --build --remove-orphans'",
