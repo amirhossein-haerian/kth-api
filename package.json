@@ -3,7 +3,6 @@
   "name": "node-api",
   "version": "2.0.0",
   "description": "Node.js based API template application",
-  "main": "app.js",
   "private": true,
   "scripts": {
     "prettier:all": "prettier --write \"**/*.js\"",
@@ -14,8 +13,9 @@
     "test:integration-in-docker": "docker build --progress plain -t node-api . && bash -c 'LOCAL_IMAGE_ID=node-api SUCCESS_DELAY=5000 docker-compose -f docker-compose-integration-tests.yml* up --abort-on-container-exit --build --remove-orphans'",
     "validate:swagger": "node ./test/swagger-validate.js",
     "validate:swagger-watch": "nodemon --watch swagger.json ./test/swagger-validate.js",
-    "start": "NODE_ENV=production node app.js",
-    "start-dev": "bash -c 'NODE_ENV=development nodemon app.js'"
+    "start": "bash -c '/wait; cat /KTH_NODEJS; NODE_ENV=production node app.js'",
+    "start-dev": "bash -c 'NODE_ENV=development nodemon app.js'",
+    "prepare": "husky install"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

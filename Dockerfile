@@ -3,6 +3,7 @@
 # Versions: https://hub.docker.com/r/kthse/kth-nodejs/tags
 #
 FROM kthse/kth-nodejs:14.0.0
+LABEL maintainer="KTH Webb <web-developers@kth.se>"
 
 #
 # During integration-tests running with docker-compose in the pipeline
@@ -12,6 +13,11 @@ FROM kthse/kth-nodejs:14.0.0
 #
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
 RUN chmod +x /wait
+
+#
+# bash might be needed by "npm start"
+#
+RUN apk add --no-cache bash
 
 #
 # Put the application into a directory in the root.
@@ -35,12 +41,12 @@ COPY ["package.json", "package.json"]
 COPY ["package-lock.json", "package-lock.json"]
 #
 # - Variant 1 - node-gyp not needed:
-# RUN npm ci --production --no-optional && \
+# RUN npm install --production --no-optional --unsafe-perm && \
 #     npm audit fix --only=prod
 #
 # - Variant 2 - node-gyp needs build-essentials:
 RUN apk stats && apk add --no-cache --virtual .gyp-dependencies python make g++ util-linux && \
-    npm ci --production --no-optional && \
+    npm install --production --no-optional --unsafe-perm && \
     npm audit fix --only=prod && \
     apk del .gyp-dependencies && apk stats
 
@@ -61,4 +67,4 @@ EXPOSE 3001
 #
 # The command that is executed when an instance of this image is run.
 #
-CMD ["ash", "-c", "/wait && npm start"]
+CMD ["npm", "start"]
