@@ -37,7 +37,7 @@ Make sure you have a MongoDb connected. An easy way to add a MongoDb is to clone
 
 ```sh
 # Logging
-LOGGING_ACCESS_LOG=/Users/hoyce/repos/github/node-api/logs
+LOGGING_ACCESS_LOG=/{YOUR LOCAL PATH}/node-api/logs
 ```
 
 Set your basePath property in `swagger.json`:
