@@ -2,7 +2,7 @@
 # A daily updated common KTH Alpine based image.
 # Versions: https://hub.docker.com/r/kthse/kth-nodejs/tags
 #
-FROM kthse/kth-nodejs:14.0.0
+FROM kthse/kth-nodejs:16.0.0
 LABEL maintainer="KTH Webb <web-developers@kth.se>"
 
 #
@@ -45,7 +45,8 @@ COPY ["package-lock.json", "package-lock.json"]
 #     npm audit fix --only=prod
 #
 # - Variant 2 - node-gyp needs build-essentials:
-RUN apk stats && apk add --no-cache --virtual .gyp-dependencies python make g++ util-linux && \
+RUN apk stats && apk add --no-cache --virtual .gyp-dependencies python2 make g++ util-linux && \
+    npm set-script prepare "" && \
     npm install --production --no-optional --unsafe-perm && \
     npm audit fix --only=prod && \
     apk del .gyp-dependencies && apk stats
