@@ -121,4 +121,3 @@ See .eslintrc file
 [web]: https://github.com/KTH/node-web
 [swagger]: http://swagger.io/
 
-.
