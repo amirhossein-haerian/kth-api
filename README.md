@@ -120,3 +120,5 @@ See .eslintrc file
 [api]: https://github.com/KTH/node-api
 [web]: https://github.com/KTH/node-web
 [swagger]: http://swagger.io/
+
+.
