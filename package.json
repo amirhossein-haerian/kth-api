@@ -33,9 +33,9 @@
     "kth-node-mongo": "^3.3.18",
     "kth-node-monitor": "^1.1.12",
     "kth-node-server": "^3.1.5",
-    "mongoose": "^5.13.5",
+    "mongoose": "^5.13.6",
     "passport": "^0.4.1",
-    "swagger-ui-dist": "^3.51.2"
+    "swagger-ui-dist": "^3.52.0"
   },
   "devDependencies": {
     "@kth/eslint-config-kth": "^1.0.12",
