@@ -33,7 +33,7 @@
     "kth-node-mongo": "^3.3.18",
     "kth-node-monitor": "^1.1.12",
     "kth-node-server": "^3.1.5",
-    "mongoose": "^5.13.6",
+    "mongoose": "^5.13.7",
     "passport": "^0.4.1",
     "swagger-ui-dist": "^3.52.0"
   },
