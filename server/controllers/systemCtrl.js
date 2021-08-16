@@ -59,8 +59,8 @@ async function getAbout(req, res) {
     gitBranch: JSON.stringify(version.gitBranch),
     gitCommit: JSON.stringify(version.gitCommit),
     jenkinsBuild: JSON.stringify(version.jenkinsBuild),
-    jenkinsBuildDate: /^\d{4}-/.test(version.jenkinsBuildDate)
-      ? _simpleDate(new Date(version.jenkinsBuildDate))
+    jenkinsBuildDate: version.jenkinsBuild
+      ? _simpleDate(new Date(parseInt(version.jenkinsBuild, 10) * 1000))
       : JSON.stringify(version.jenkinsBuildDate),
     dockerName: JSON.stringify(version.dockerName),
     dockerVersion: JSON.stringify(version.dockerVersion),
