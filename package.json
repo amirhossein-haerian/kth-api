@@ -48,7 +48,8 @@
     "openapi-types": "^7.2.3",
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
-    "swagger-parser": "^10.0.3"
+    "swagger-parser": "^10.0.3",
+    "set-value": "^4.1.0"
   },
   "// (prettier)": "configuration version 2020-06-15 - might also reside in .prettierrc.json",
   "prettier": {
