@@ -1,4 +1,4 @@
 {
   "expectedDefaultResponseCodes": [401],
-  "expectedSingleResponses": []
+  "expectedSingleResponses": [{ "method": "GET", "uri": "/api/node/swagger/index.html", "statusCode": 200 }]
 }
