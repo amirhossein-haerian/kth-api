@@ -92,7 +92,7 @@ require('./database').connect()
  */
 const { addPaths } = require('kth-node-express-routing')
 
-const { createApiPaths, createSwaggerRedirectHandler, notFoundHandler, errorHandler } = require('kth-node-api-common')
+const { createApiPaths, notFoundHandler, errorHandler } = require('kth-node-api-common')
 const swaggerData = require('../swagger.json')
 const { System } = require('./controllers')
 
@@ -104,6 +104,9 @@ systemRoute.get('system.monitor', _addProxy('/_monitor'), System.monitor)
 systemRoute.get('system.about', _addProxy('/_about'), System.about)
 systemRoute.get('system.paths', _addProxy('/_paths'), System.paths)
 systemRoute.get('system.swagger', _addProxy('/swagger.json'), System.swagger)
+systemRoute.get('system.swaggerUI', _addProxy('/swagger'), System.swaggerUI)
+systemRoute.get('system.swaggerUI', _addProxy('/swagger/'), System.swaggerUI)
+systemRoute.get('system.swaggerUI', _addProxy('/swagger/index.html'), System.swaggerUI)
 systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
 server.use('/', systemRoute.getRouter())
 
@@ -111,11 +114,8 @@ server.use('/', systemRoute.getRouter())
 const express = require('express')
 const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
 
-server.use(
-  _addProxy('/swagger'),
-  createSwaggerRedirectHandler(`${_addProxy('/swagger')}?url=${_addProxy('/swagger.json')}`),
-  express.static(pathToSwaggerUi)
-)
+const swaggerUrl = _addProxy('/swagger')
+server.use(swaggerUrl, express.static(pathToSwaggerUi))
 
 // Add API endpoints defined in swagger to path definitions so we can use them to register API endpoint handlers
 addPaths(

@@ -11,6 +11,25 @@ const applicationPaths = {
   },
 }
 
+jest.mock('../../server/configuration', () => ({
+  server: {
+    api_keys: '1234',
+    apiKey: {},
+    nodeApi: {},
+    db: {},
+    logging: {
+      log: {
+        level: 'debug',
+      },
+    },
+    ldap: {},
+    proxyPrefixPath: {
+      uri: '/api/node',
+    },
+    collections: [],
+  },
+}))
+
 /*
  * utility functions
  */
@@ -90,5 +109,39 @@ describe(`System controller`, () => {
     await paths(req, res)
 
     expect(res.json).toHaveBeenNthCalledWith(1, applicationPaths)
+  })
+
+  test('get swagger.json returns successfully', async () => {
+    const req = buildReq({})
+    const res = buildRes()
+
+    const { swagger } = require('./systemCtrl')
+    await swagger(req, res)
+    const swaggerData = require('../../swagger.json')
+    expect(res.json).toHaveBeenNthCalledWith(1, swaggerData)
+  })
+
+  test('get swagger ui returns successfully', async () => {
+    const req = buildReq({})
+    const res = buildRes()
+    const path = require('path')
+    const fs = require('fs')
+    const swaggerUrl = `/api/node/swagger.json`
+    const swaggerIndexHtml = fs
+      .readFileSync(path.resolve(__dirname, '../../node_modules/swagger-ui-dist/index.html'), 'utf8')
+      .toString()
+
+    const petstoreUrl = 'https://petstore.swagger.io/v2/swagger.json'
+    expect(swaggerIndexHtml).toContain(petstoreUrl)
+
+    const patchedSwaggerIndexHtml = swaggerIndexHtml.replace(petstoreUrl, swaggerUrl)
+    expect(patchedSwaggerIndexHtml).not.toContain(petstoreUrl)
+    expect(patchedSwaggerIndexHtml).toContain(swaggerUrl)
+
+    const { swaggerUI } = require('./systemCtrl')
+
+    await swaggerUI(req, res)
+    expect(res.type).toHaveBeenNthCalledWith(1, 'text/html')
+    expect(res.send).toHaveBeenNthCalledWith(1, patchedSwaggerIndexHtml)
   })
 })

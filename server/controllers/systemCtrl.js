@@ -1,12 +1,14 @@
 'use strict'
 
 const os = require('os')
+const fs = require('fs')
 
 const registry = require('component-registry').globalRegistry
 const db = require('kth-node-mongo')
 const { getPaths } = require('kth-node-express-routing')
 const { IHealthCheck } = require('kth-node-monitor').interfaces
 
+const configServer = require('../configuration').server
 const version = require('../../config/version')
 const packageFile = require('../../package.json')
 
@@ -40,6 +42,25 @@ const started = _simpleDate(new Date())
  */
 function getSwagger(req, res) {
   res.json(require('../../swagger.json'))
+}
+
+/**
+ * GET /swagger
+ * Swagger
+ */
+function getSwaggerUI(req, res) {
+  if (req.url === configServer.proxyPrefixPath.uri + '/swagger') {
+    // This redirect is needed since swagger js & css files to get right paths
+    return res.redirect(configServer.proxyPrefixPath.uri + '/swagger/')
+  }
+
+  const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
+  const swaggerUrl = configServer.proxyPrefixPath.uri + '/swagger.json'
+  const petstoreUrl = 'https://petstore.swagger.io/v2/swagger.json'
+
+  const indexContent = fs.readFileSync(`${pathToSwaggerUi}/index.html`).toString().replace(petstoreUrl, swaggerUrl)
+
+  return res.type('text/html').send(indexContent)
 }
 
 /**
@@ -140,4 +161,5 @@ module.exports = {
   paths: getPathsHandler,
   checkAPIKey: getCheckAPIKey,
   swagger: getSwagger,
+  swaggerUI: getSwaggerUI,
 }
