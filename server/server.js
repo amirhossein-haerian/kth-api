@@ -1,8 +1,5 @@
 /* eslint-disable import/order */
 
-const server = require('kth-node-server')
-const path = require('path')
-
 // Load .env file in development mode
 const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
 if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
@@ -11,6 +8,23 @@ if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
 
 // Now read the server config etc.
 const config = require('./configuration').server
+
+/* ***********************
+ * ******* LOGGING *******
+ * ***********************
+ */
+const log = require('@kth/log')
+const packageFile = require('../package.json')
+
+const logConfiguration = {
+  name: packageFile.name,
+  level: config.logging.log.level,
+}
+log.init(logConfiguration)
+
+const server = require('kth-node-server')
+const path = require('path')
+
 const AppRouter = require('kth-node-express-routing').PageRouter
 const { getPaths } = require('kth-node-express-routing')
 
@@ -18,24 +32,6 @@ const { getPaths } = require('kth-node-express-routing')
 server.locals.secret = new Map()
 module.exports = server
 module.exports.getPaths = () => getPaths()
-
-/* ***********************
- * ******* LOGGING *******
- * ***********************
- */
-const log = require('kth-node-log')
-const packageFile = require('../package.json')
-
-const logConfiguration = {
-  name: packageFile.name,
-  app: packageFile.name,
-  env: process.env.NODE_ENV,
-  level: config.logging.log.level,
-  console: config.logging.console,
-  stdout: config.logging.stdout,
-  src: config.logging.src,
-}
-log.init(logConfiguration)
 
 /* **************************
  * ******* TEMPLATING *******

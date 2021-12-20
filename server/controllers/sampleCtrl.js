@@ -1,3 +1,4 @@
+const log = require('@kth/log')
 /**
  * Sample API controller. Can safely be removed.
  */
@@ -10,13 +11,14 @@ const { Sample } = require('../models')
  */
 async function getData(req, res, next) {
   try {
+    log.debug({ req, res }, 'Enter getData')
     let doc = {}
     doc = await Sample.findById(req.params.id)
 
     if (!doc) {
       return res.status(404).json({ message: 'document not found' })
     }
-
+    log.debug({ req, res }, 'Leive getData')
     return res.json({ id: doc._id, name: doc.name })
   } catch (err) {
     return next(err)
@@ -30,6 +32,7 @@ async function getData(req, res, next) {
  */
 async function postData(req, res, next) {
   try {
+    log.debug({ req, res }, 'PostData')
     let doc = await Sample.findById(req.params.id)
 
     if (!doc) {
@@ -42,7 +45,7 @@ async function postData(req, res, next) {
     }
 
     await doc.save()
-
+    log.debug({ req, res })
     res.json({ id: doc._id, name: doc.name })
   } catch (err) {
     next(err)

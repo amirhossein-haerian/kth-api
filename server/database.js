@@ -1,6 +1,6 @@
 'use strict'
 
-const log = require('kth-node-log')
+const log = require('@kth/log')
 const nodeMongo = require('kth-node-mongo')
 const config = require('./configuration').server
 
