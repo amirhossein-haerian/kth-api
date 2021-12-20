@@ -54,6 +54,8 @@ function buildNext(impl) {
 
 describe(`Sample controller`, () => {
   const OLD_ENV = process.env
+  const log = require('@kth/log')
+  log.init({ name: 'Unit tests', level: 'debug', env: 'production' })
 
   beforeEach(() => {
     jest.resetModules()
