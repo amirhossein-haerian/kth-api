@@ -30,6 +30,11 @@ jest.mock('../../server/configuration', () => ({
   },
 }))
 
+jest.mock('kth-node-mongo', () => ({
+  connect: jest.fn(),
+  isOk: jest.fn(() => true),
+}))
+
 /*
  * utility functions
  */
@@ -63,13 +68,9 @@ describe(`System controller`, () => {
     process.env = OLD_ENV
   })
 
-  test('monitor returns successfully when using component registry', async () => {
+  test('monitor returns successfully', async () => {
     const req = buildReq({})
     const res = buildRes()
-
-    jest.mock('kth-node-monitor', () => ({
-      interfaces: jest.fn(),
-    }))
 
     const { monitor } = require('./systemCtrl')
 

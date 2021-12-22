@@ -2,11 +2,10 @@
 
 const os = require('os')
 const fs = require('fs')
-
-const registry = require('component-registry').globalRegistry
+const log = require('@kth/log')
 const db = require('kth-node-mongo')
 const { getPaths } = require('kth-node-express-routing')
-const { IHealthCheck } = require('kth-node-monitor').interfaces
+const monitorSystems = require('@kth/monitor')
 
 const configServer = require('../configuration').server
 const version = require('../../config/version')
@@ -96,35 +95,23 @@ async function getAbout(req, res) {
  * Monitor page
  */
 async function getMonitor(req, res) {
-  // Check MongoDB
-  const mongodbHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-mongodb')
-  const subSystems = [mongodbHealthUtil.status(db, { required: true })]
-
-  // If we need local system checks, such as memory or disk, we would add it here.
-  // Make sure it returns a promise which resolves with an object containing:
-  // {statusCode: ###, message: '...'}
-  // The property statusCode should be standard HTTP status codes.
-  const localSystems = Promise.resolve({ statusCode: 200, message: 'OK' })
-
-  /* -- You will normally not change anything below this line -- */
-
-  // Determine system health based on the results of the checks above. Expects
-  // arrays of promises as input. This returns a promise
-  const systemHealthUtil = registry.getUtility(IHealthCheck, 'kth-node-system-check')
   try {
-    const systemStatus = await systemHealthUtil.status(localSystems, subSystems)
-
-    if (systemStatus) {
-      if (req.headers.accept === 'application/json') {
-        const outp = systemHealthUtil.renderJSON(systemStatus)
-        return res.status(systemStatus.statusCode).json(outp)
-      }
-      const outp = systemHealthUtil.renderText(systemStatus)
-      return res.type('text').status(systemStatus.statusCode).send(outp)
-    }
-    throw new Error('no systemStatus')
-  } catch (err) {
-    return res.type('text').status(500).send(err)
+    await monitorSystems(req, res, [
+      {
+        key: 'mongodb',
+        required: true,
+        db,
+      },
+      {
+        key: 'local',
+        isResolved: true,
+        message: '- local system checks: OK',
+        statusCode: 200,
+      },
+    ])
+  } catch (error) {
+    log.error(`Monitor failed`, error)
+    res.status(500).end()
   }
 }
 
