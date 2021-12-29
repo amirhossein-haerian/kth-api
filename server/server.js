@@ -22,7 +22,7 @@ const logConfiguration = {
 }
 log.init(logConfiguration)
 
-const server = require('kth-node-server')
+const server = require('@kth/server')
 const path = require('path')
 
 const AppRouter = require('kth-node-express-routing').PageRouter
