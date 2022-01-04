@@ -1,7 +1,7 @@
 'use strict'
 
 const log = require('@kth/log')
-const nodeMongo = require('kth-node-mongo')
+const nodeMongo = require('@kth/mongo')
 const config = require('./configuration').server
 
 const mongoOptions = {
@@ -15,8 +15,8 @@ const mongoOptions = {
 module.exports.connect = function connect() {
   nodeMongo
     .connect(mongoOptions)
-    .then(data => {
-      log.info({ data }, 'MongoDB: connected')
+    .then(() => {
+      log.info('MongoDB: connected')
     })
     .catch(err => {
       log.error({ err }, 'MongoDB: ERROR connecting DB')

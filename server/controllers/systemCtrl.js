@@ -3,7 +3,7 @@
 const os = require('os')
 const fs = require('fs')
 const log = require('@kth/log')
-const db = require('kth-node-mongo')
+const db = require('@kth/mongo')
 const { getPaths } = require('kth-node-express-routing')
 const monitorSystems = require('@kth/monitor')
 

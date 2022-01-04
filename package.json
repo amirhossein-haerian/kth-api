@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@kth/log": "^4.0.0",
+    "@kth/mongo": "^4.0.3",
     "@kth/monitor": "^3.0.6",
     "@kth/server": "^4.0.1",
     "body-parser": "^1.19.1",
@@ -33,14 +34,13 @@
     "kth-node-api-key-strategy": "^1.0.14",
     "kth-node-configuration": "^2.0.8",
     "kth-node-express-routing": "^2.0.12",
-    "kth-node-mongo": "^3.3.23",
-    "mongoose": "^5.13.14",
+    "mongoose": "^6.1.4",
     "passport": "^0.4.1",
     "swagger-ui-dist": "^4.1.3"
   },
   "devDependencies": {
     "@kth/eslint-config-kth": "^2.0.2",
-    "@types/jest": "^27.0.3",
+    "@types/jest": "^27.4.0",
     "ansi-regex": "^6.0.1",
     "eslint": "^7.32.0",
     "husky": "^7.0.4",

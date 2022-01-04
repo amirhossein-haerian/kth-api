@@ -30,7 +30,7 @@ jest.mock('../../server/configuration', () => ({
   },
 }))
 
-jest.mock('kth-node-mongo', () => ({
+jest.mock('@kth/mongo', () => ({
   connect: jest.fn(),
   isOk: jest.fn(() => true),
 }))
