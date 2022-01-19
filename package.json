@@ -26,7 +26,7 @@
     "@kth/server": "^4.0.1",
     "body-parser": "^1.19.1",
     "cookie-parser": "^1.4.6",
-    "dotenv": "^10.0.0",
+    "dotenv": "^14.2.0",
     "express": "^4.17.2",
     "express-handlebars": "^5.3.5",
     "kth-node-access-log": "^0.2.7",
@@ -34,7 +34,7 @@
     "kth-node-api-key-strategy": "^1.0.14",
     "kth-node-configuration": "^2.0.8",
     "kth-node-express-routing": "^2.0.12",
-    "mongoose": "^6.1.6",
+    "mongoose": "^6.1.7",
     "passport": "^0.4.1",
     "swagger-ui-dist": "^4.1.3"
   },
