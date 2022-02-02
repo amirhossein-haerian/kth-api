@@ -22,7 +22,7 @@
   "dependencies": {
     "@kth/log": "^4.0.0",
     "@kth/mongo": "^4.0.3",
-    "@kth/monitor": "^3.0.16",
+    "@kth/monitor": "^3.0.19",
     "@kth/server": "^4.0.1",
     "body-parser": "^1.19.1",
     "cookie-parser": "^1.4.6",
@@ -34,7 +34,7 @@
     "kth-node-api-key-strategy": "^1.0.14",
     "kth-node-configuration": "^2.0.8",
     "kth-node-express-routing": "^2.0.12",
-    "mongoose": "^6.1.9",
+    "mongoose": "^6.1.10",
     "passport": "^0.4.1",
     "swagger-ui-dist": "^4.4.1"
   },
