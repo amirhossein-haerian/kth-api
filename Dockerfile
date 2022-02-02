@@ -59,6 +59,7 @@ COPY ["server", "server"]
 #
 COPY ["app.js", "app.js"]
 COPY ["swagger.json", "swagger.json"]
+COPY [".env.ini", ".env.ini"]
 
 #
 # Port that the application will expose.
