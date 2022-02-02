@@ -12,7 +12,7 @@ const packageFile = require('./package.json')
 // catches uncaught exceptions
 process.on('uncaughtException', (err, origin) => {
   if (err.toString().match(/(ECONNRESET|MongoNetworkError)/i)) {
-    log.warn(`node-api: DB connection reset origin (${origin})`, { err })
+    log.warn(`DB connection reset origin (${origin})`, { err })
   } else {
     log.error('APPLICATION EXIT - uncaught exception in ', packageFile.name)
     log.error(`Uncaught Exception, origin (${origin})`, { err })
