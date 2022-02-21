@@ -27,16 +27,16 @@
     "body-parser": "^1.19.2",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.0",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "express-handlebars": "^5.3.5",
     "kth-node-access-log": "^0.2.7",
     "kth-node-api-common": "^1.0.10",
     "kth-node-api-key-strategy": "^1.0.14",
     "kth-node-configuration": "^2.0.10",
     "kth-node-express-routing": "^2.0.12",
-    "mongoose": "^6.2.1",
+    "mongoose": "^6.2.2",
     "passport": "^0.4.1",
-    "swagger-ui-dist": "^4.5.0"
+    "swagger-ui-dist": "^4.5.1"
   },
   "devDependencies": {
     "@kth/eslint-config-kth": "^2.0.2",
