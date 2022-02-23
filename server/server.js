@@ -111,6 +111,10 @@ const express = require('express')
 const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
 
 const swaggerUrl = _addProxy('/swagger')
+
+const { swaggerHandler } = require('./swagger')
+
+server.use(swaggerUrl, swaggerHandler)
 server.use(swaggerUrl, express.static(pathToSwaggerUi))
 
 // Add API endpoints defined in swagger to path definitions so we can use them to register API endpoint handlers
