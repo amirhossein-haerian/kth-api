@@ -129,7 +129,7 @@ describe(`System controller`, () => {
     const fs = require('fs')
     const swaggerUrl = `/api/node/swagger.json`
     const swaggerIndexHtml = fs
-      .readFileSync(path.resolve(__dirname, '../../node_modules/swagger-ui-dist/index.html'), 'utf8')
+      .readFileSync(path.resolve(__dirname, '../../node_modules/swagger-ui-dist/swagger-initializer.js'), 'utf8')
       .toString()
 
     const petstoreUrl = 'https://petstore.swagger.io/v2/swagger.json'
@@ -142,7 +142,7 @@ describe(`System controller`, () => {
     const { swaggerUI } = require('./systemCtrl')
 
     await swaggerUI(req, res)
-    expect(res.type).toHaveBeenNthCalledWith(1, 'text/html')
+    expect(res.type).toHaveBeenNthCalledWith(1, 'text/javascript')
     expect(res.send).toHaveBeenNthCalledWith(1, patchedSwaggerIndexHtml)
   })
 })
