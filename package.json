@@ -20,7 +20,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@kth/log": "^4.0.1",
+    "@kth/log": "^4.0.2",
     "@kth/mongo": "^4.0.5",
     "@kth/monitor": "^3.0.23",
     "@kth/server": "^4.0.1",
