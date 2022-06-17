@@ -48,7 +48,7 @@ RUN npm pkg delete scripts.prepare && \
 #
 # Copy the files needed for the application to run.
 #
-COPY --chown=node:node [ "config", "config"]
+COPY --chown=node:node ["config", "config"]
 COPY --chown=node:node ["server", "server"]
 COPY --chown=node:node ["app.js", "app.js"]
 COPY --chown=node:node ["swagger.json", "swagger.json"]
@@ -62,4 +62,4 @@ EXPOSE 3001
 #
 # The command that is executed when an instance of this image is run.
 #
-CMD ["npm", "start"]
+CMD ["bash", "-c", "/wait; cat /KTH_NODEJS; NODE_ENV=production node app.js"]
