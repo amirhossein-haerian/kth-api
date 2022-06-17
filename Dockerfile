@@ -15,11 +15,6 @@ ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait
 RUN chmod +x /wait
 
 #
-# bash might be needed by "npm start"
-#
-RUN apk add --no-cache bash
-
-#
 # Put the application into a directory in the root.
 # This will prevent file polution and possible overwriting of files.
 #
@@ -39,17 +34,14 @@ ENV TZ Europe/Stockholm
 #
 COPY ["package.json", "package.json"]
 COPY ["package-lock.json", "package-lock.json"]
-#
-# - Variant 1 - node-gyp not needed:
-# RUN npm install --production --no-optional --unsafe-perm && \
-#     npm audit fix --only=prod
-#
-# - Variant 2 - node-gyp needs build-essentials:
-RUN apk stats && apk add --no-cache --virtual .gyp-dependencies python2 make g++ util-linux && \
-    npm set-script prepare "" && \
+
+RUN chown -R node:node /application
+
+USER node
+
+RUN npm pkg delete scripts.prepare && \
     npm ci --production --no-optional --unsafe-perm && \
-    npm audit fix --only=prod && \
-    apk del .gyp-dependencies && apk stats
+    npm audit fix --only=prod
 
 #
 # Copy the files needed for the application to run.
