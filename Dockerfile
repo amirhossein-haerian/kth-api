@@ -27,17 +27,19 @@ ENV NODE_PATH /application
 ENV TZ Europe/Stockholm
 
 #
+# Set user to node
+#
+RUN chown -R node:node /application
+USER node
+
+#
 # Copy the files needed to install the production dependencies
 # and install them using npm.
 #
 # Remember to only install production dependencies.
 #
-COPY ["package.json", "package.json"]
-COPY ["package-lock.json", "package-lock.json"]
-
-RUN chown -R node:node /application
-
-USER node
+COPY --chown=node:node ["package.json", "package.json"]
+COPY --chown=node:node ["package-lock.json", "package-lock.json"]
 
 RUN npm pkg delete scripts.prepare && \
     npm ci --production --no-optional --unsafe-perm && \
@@ -46,12 +48,11 @@ RUN npm pkg delete scripts.prepare && \
 #
 # Copy the files needed for the application to run.
 #
-COPY ["config", "config"]
-COPY ["server", "server"]
-#
-COPY ["app.js", "app.js"]
-COPY ["swagger.json", "swagger.json"]
-COPY [".env.ini", ".env.ini"]
+COPY --chown=node:node [ "config", "config"]
+COPY --chown=node:node ["server", "server"]
+COPY --chown=node:node ["app.js", "app.js"]
+COPY --chown=node:node ["swagger.json", "swagger.json"]
+COPY --chown=node:node [".env.ini", ".env.ini"]
 
 #
 # Port that the application will expose.
