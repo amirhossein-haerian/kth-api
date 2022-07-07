@@ -42,8 +42,7 @@ COPY --chown=node:node ["package.json", "package.json"]
 COPY --chown=node:node ["package-lock.json", "package-lock.json"]
 
 RUN npm pkg delete scripts.prepare && \
-    npm ci --production --no-optional --unsafe-perm && \
-    npm audit fix --only=prod
+    npm ci --production --no-optional --unsafe-perm
 
 #
 # Copy the files needed for the application to run.
