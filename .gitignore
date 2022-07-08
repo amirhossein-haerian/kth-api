@@ -35,5 +35,9 @@ node_modules
 # test coverage
 coverage
 
+# Jest
+test/coverage
+test/reports
+
 # Local testing tools (Alexander):
 docker-local.*

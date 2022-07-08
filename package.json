@@ -13,6 +13,7 @@
     "test:unit-in-docker": "docker build --progress plain -t node-api . && bash -c 'LOCAL_IMAGE_ID=node-api docker-compose -f docker-compose-unit-tests.yml* up --abort-on-container-exit --build --remove-orphans'",
     "test:integration": "cd test/integration && bash -c 'INTEGRATION_TEST_BASEURL=http://localhost:3001/api/node ./all-tests.sh'",
     "test:integration-in-docker": "docker build --progress plain -t node-api . && bash -c 'LOCAL_IMAGE_ID=node-api SUCCESS_DELAY=5000 docker-compose -f docker-compose-integration-tests.yml* up --abort-on-container-exit --build --remove-orphans'",
+    "test:coverage": "jest --coverage",
     "validate:swagger": "node ./test/swagger-validate.js",
     "validate:swagger-watch": "nodemon --watch swagger.json ./test/swagger-validate.js",
     "start": "bash -c '/wait; cat /KTH_NODEJS; NODE_ENV=production node app.js'",
@@ -46,6 +47,7 @@
     "husky": "^8.0.1",
     "jest": "^28.1.2",
     "jest-extended": "^2.0.0",
+    "jest-sonar-reporter": "^2.0.0",
     "nodemon": "^2.0.19",
     "openapi-types": "^11.1.0",
     "prettier": "^2.7.1",
@@ -69,6 +71,15 @@
       "jest-extended/all"
     ],
     "testEnvironment": "node",
-    "verbose": true
+    "verbose": true,
+    "collectCoverageFrom": [
+      "server/**/*.js"
+    ],
+    "coverageDirectory": "./test/coverage",
+    "testResultsProcessor": "jest-sonar-reporter"
+  },
+  "jestSonar": {
+    "reportPath": "./test/reports",
+    "reportFile": "test-reporter.xml"
   }
 }
