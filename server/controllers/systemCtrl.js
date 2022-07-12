@@ -66,9 +66,7 @@ function getSwaggerUI(req, res) {
  */
 async function getAbout(req, res) {
   const paths = getPaths()
-
-  res.render('system/about', {
-    layout: '',
+  const aboutData = {
     appName: packageFile.name,
     appVersion: packageFile.version,
     appDescription: packageFile.description,
@@ -85,6 +83,13 @@ async function getAbout(req, res) {
     hostname: os.hostname(),
     started,
     env: process.env.NODE_ENV,
+  }
+  if (req.headers.accept === 'application/json') {
+    return res.json(aboutData)
+  }
+  res.render('system/about', {
+    layout: '',
+    ...aboutData,
   })
 }
 
@@ -134,7 +139,23 @@ function getPathsHandler(req, res) {
 function getCheckAPIKey(req, res) {
   res.end()
 }
-
+/**
+ * GET /_status
+ * Status - dynamic status information about the application.
+ */
+async function getStatus(req, res) {
+  const statusData = {
+    appName: packageFile.name,
+    appVersion: packageFile.version,
+    hostname: os.hostname(),
+    started,
+    env: process.env.NODE_ENV,
+  }
+  if (req.headers.accept === 'application/json') {
+    return res.json(statusData)
+  }
+  return res.send(JSON.stringify(statusData))
+}
 /**
  * System controller for functions such as about and monitor.
  * Avoid making changes here in sub-projects.
@@ -147,4 +168,5 @@ module.exports = {
   checkAPIKey: getCheckAPIKey,
   swagger: getSwagger,
   swaggerUI: getSwaggerUI,
+  status: getStatus,
 }
