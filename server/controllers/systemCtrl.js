@@ -157,6 +157,7 @@ async function getStatus(req, res) {
     hostname: os.hostname(),
     started,
     env: process.env.NODE_ENV,
+    jobs: await Agenda.getLastRunJobs(),
   }
   if (req.headers.accept === 'application/json') {
     return res.json(statusData)

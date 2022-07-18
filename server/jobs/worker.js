@@ -9,7 +9,7 @@ const log = require('@kth/log')
 const packageFile = require('../../package.json')
 const jobs = require('./jobs')
 
-const worker = { status: 'Startup', agenda: null, isStatusOkay }
+const worker = { status: 'Startup', agenda: null, isStatusOkay, getLastRunJobs }
 
 module.exports = worker
 
@@ -227,5 +227,29 @@ async function isAgendaOk() {
     log.error('AGENDA: Agenda probe error: Agenda is not responding in ' + packageFile.name, err)
     setAgendaHadProblem()
     restartAgenda()
+  }
+}
+
+/**
+ * Get jobs run the last 24h
+ */
+async function getLastRunJobs() {
+  try {
+    const lastRunJobs = await worker.agenda.jobs({
+      lastRunAt: { $gt: new Date(new Date().setHours(new Date().getHours() - 24)) },
+    })
+
+    return lastRunJobs.map(job => ({
+      name: job.attrs.name,
+      type: job.attrs.type,
+      lastRunAt: job.attrs.lastRunAt,
+      lastFinishedAt: job.attrs.lastFinishedAt,
+      nextRunAt: job.attrs.lastFinishedAt,
+      failedAt: job.attrs.failedAt,
+      failReason: job.attrs.failReason,
+    }))
+  } catch (err) {
+    log.error('getLastRunJobs:  Agenda is not responding in ' + packageFile.name, err)
+    return false
   }
 }
