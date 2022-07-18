@@ -3,6 +3,13 @@ const { getData, postData } = require('./sampleCtrl')
 // Test data
 //
 
+jest.mock('@kth/log', () => ({
+  init: jest.fn(() => {}),
+  info: jest.fn(() => {}),
+  debug: jest.fn(() => {}),
+  error: jest.fn(() => {}),
+}))
+
 jest.mock('../models', () => ({
   Sample: {
     findById: jest.fn().mockImplementation(_id => {

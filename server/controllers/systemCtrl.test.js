@@ -11,6 +11,13 @@ const applicationPaths = {
   },
 }
 
+jest.mock('@kth/log', () => ({
+  init: jest.fn(() => {}),
+  info: jest.fn(() => {}),
+  debug: jest.fn(() => {}),
+  error: jest.fn(() => {}),
+}))
+
 jest.mock('../../server/configuration', () => ({
   server: {
     api_keys: '1234',
