@@ -25,6 +25,7 @@
     "@kth/mongo": "^4.0.9",
     "@kth/monitor": "^3.0.24",
     "@kth/server": "^4.0.2",
+    "agenda": "^4.3.0",
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",

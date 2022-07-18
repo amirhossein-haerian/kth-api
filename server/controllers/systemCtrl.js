@@ -10,6 +10,7 @@ const monitorSystems = require('@kth/monitor')
 const configServer = require('../configuration').server
 const version = require('../../config/version')
 const packageFile = require('../../package.json')
+const Agenda = require('../jobs/worker')
 
 /**
  * Adds a zero (0) to numbers less then ten (10)
@@ -105,6 +106,12 @@ async function getMonitor(req, res) {
         required: true,
         db,
       },
+      {
+        key: 'agenda',
+        required: false,
+        agendaState: await Agenda.isStatusOkay(),
+      },
+
       {
         key: 'local',
         isResolved: true,

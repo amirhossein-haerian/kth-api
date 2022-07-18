@@ -149,5 +149,6 @@ server.use(errorHandler)
  * ******* APP SPECIFIC *******
  * ****************************
  */
+require('./jobs/worker')
 
 module.exports = server
