@@ -36,13 +36,13 @@
     "kth-node-api-key-strategy": "^2.0.0",
     "kth-node-configuration": "^2.0.12",
     "kth-node-express-routing": "^2.0.15",
-    "mongoose": "^6.5.2",
+    "mongoose": "^6.5.3",
     "passport": "^0.6.0",
     "swagger-ui-dist": "^4.14.0"
   },
   "devDependencies": {
     "@kth/eslint-config-kth": "^3.0.10",
-    "@types/jest": "^28.1.7",
+    "@types/jest": "^28.1.8",
     "ansi-regex": "^6.0.1",
     "eslint": "^8.22.0",
     "husky": "^8.0.1",
