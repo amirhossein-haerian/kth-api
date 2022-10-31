@@ -244,7 +244,7 @@ async function getLastRunJobs() {
       type: job.attrs.type,
       lastRunAt: job.attrs.lastRunAt,
       lastFinishedAt: job.attrs.lastFinishedAt,
-      nextRunAt: job.attrs.lastFinishedAt,
+      nextRunAt: job.attrs.nextRunAt,
       failedAt: job.attrs.failedAt,
       failReason: job.attrs.failReason,
     }))
