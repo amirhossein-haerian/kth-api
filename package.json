@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@kth/log": "^4.0.5",
-    "@kth/mongo": "^4.0.12",
+    "@kth/mongo": "^4.0.13",
     "@kth/monitor": "^3.0.29",
     "@kth/server": "^4.0.4",
     "agenda": "^4.4.0",
