@@ -21,7 +21,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@kth/appinsights": "^0.0.4",
+    "@kth/appinsights": "^0.1.0",
     "@kth/log": "^4.0.6",
     "@kth/mongo": "^4.0.14",
     "@kth/monitor": "^4.0.1",
