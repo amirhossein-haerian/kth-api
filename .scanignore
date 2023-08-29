@@ -1,5 +1,0 @@
-/config/serverSettings.js
-/docker-compose-integration-tests.yml
-/package-lock.json
-/.azure/azure-pipelines.pr.yml
-/.azure/azure-pipelines.ref.yml
