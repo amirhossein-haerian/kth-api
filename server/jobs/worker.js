@@ -2,7 +2,7 @@
 
 'use strict'
 
-const { Agenda } = require('agenda')
+const { Agenda } = require('@hokify/agenda')
 const mongoose = require('mongoose')
 const log = require('@kth/log')
 
