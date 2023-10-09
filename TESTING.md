@@ -74,20 +74,6 @@ Several ways are pre-configured for running the unit-tests.
 
   > **We strongly advise you against** taking away "husky" or the "pre-push" hook in `package.json`.
 
-### Automatic unit-tests as part of the CI/CD pipeline
-
-- **By default, this function is deactivated.** No unit-tests are run in the pipeline.
-
-  > This is done by having the file `/docker-compose-unit-tests` with the extension `.yml.in`.
-
-- If you rename the file to `/docker-compose-unit-tests.yml`, the build-pipeline at KTH will automatically run the unit-tests with Docker right after any new application image was successfully created.
-
-  > **Please note:**<br>This might significantly slow down the build-process. Before the unit-tests are run in the pipeline, the Docker container must install your application's full development environment with `npm install`.
-
-  > You find more information in the Git repository of KTH's package "Evolene": https://github.com/KTH/evolene/blob/master/README.md#testing
-
-  > Check the output in Jenkins in case of problems!
-
 # Integration-tests
 
 The integration-tests are based on scripts for Bash and Node.js. They can be run locally and/or automatically as part of the CI/CD pipeline.
@@ -229,14 +215,6 @@ The integration-tests are based on scripts for Bash and Node.js. They can be run
 
   > **Hint:**
   > This might also be an easy and good way to ensure that your application can be run without problems after a new Docker image was build in the CI/CD pipeline.
-
-### Automatic integration-tests as part of the CI/CD pipeline
-
-- As long as you keep the filename `/docker-compose-integration-tests.yml`, the build-pipeline at KTH will run the integration-tests with Docker right after any new Docker image was successfully created.
-
-  > You find more information in the Git repository of KTH's package "Evolene": https://github.com/KTH/evolene/blob/master/README.md#testing
-
-  > Check the output in Jenkins in case of problems!
 
 # Swagger validation
 
