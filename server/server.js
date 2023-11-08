@@ -1,4 +1,6 @@
 /* eslint-disable import/order */
+// But also try to get the order better
+const express = require('express')
 
 // Load .env file in development mode
 const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
@@ -22,7 +24,8 @@ const logConfiguration = {
 }
 log.init(logConfiguration)
 
-const server = require('@kth/server')
+const server = express()
+
 const path = require('path')
 
 const AppRouter = require('kth-node-express-routing').PageRouter
@@ -32,16 +35,6 @@ const { getPaths } = require('kth-node-express-routing')
 server.locals.secret = new Map()
 module.exports = server
 module.exports.getPaths = () => getPaths()
-
-/* **************************
- * ******* TEMPLATING *******
- * **************************
- */
-const exphbs = require('express-handlebars')
-
-server.set('views', path.join(__dirname, '/views'))
-server.engine('handlebars', exphbs.engine())
-server.set('view engine', 'handlebars')
 
 /* ******************************
  * ******* ACCESS LOGGING *******
@@ -99,11 +92,9 @@ systemRoute.get('system.paths', _addProxy('/_paths'), System.paths)
 systemRoute.get('system.status', _addProxy('/_status'), System.status)
 systemRoute.get('system.swagger', _addProxy('/swagger.json'), System.swagger)
 systemRoute.get('system.swaggerUI', config.proxyPrefixPath.uri + '/swagger/swagger-initializer.js', System.swaggerUI)
-systemRoute.get('system.robots', '/robots.txt', System.robotsTxt)
 server.use('/', systemRoute.getRouter())
 
 // Swagger UI
-const express = require('express')
 const pathToSwaggerUi = require('swagger-ui-dist').absolutePath()
 
 const swaggerUrl = _addProxy('/swagger')
