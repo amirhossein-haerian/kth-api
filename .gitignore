@@ -42,5 +42,8 @@ test/reports
 # Local testing tools (Alexander):
 docker-local.*
 
+# Local notes
+notes*
+
 # Local MongoDB
 data
