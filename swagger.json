@@ -97,7 +97,7 @@
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "Person validation failed: firstName: firstName is required. \n\n lastName: lastName is required."
+                  "example": "Person validation failed: firstName: firstName is required. lastName: lastName is required."
                 }
               }
             }
@@ -136,6 +136,13 @@
           },
           "401": {
             "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
+          "404": {
+            "description": "No room found for given ID",
+            "schema": {
+              "type": "object",
+              "properties": { "message": { "type": "string", "example": "document not found" } }
+            }
           },
           "default": {
             "description": "Unexpected response - internal error"
@@ -222,8 +229,8 @@
       "post": {
         "tags": ["room"],
         "operationId": "postRoomById",
-        "summary": "Room with ID",
-        "description": "Returns the earlier stored room-object with the given ID.\n\n_(Room.postRoom)_\n\n",
+        "summary": "Store Room",
+        "description": "Saves the given room-object, overwriting any old room with the same ID.\n\n_(Room.postRoom)_",
         "parameters": [{ "$ref": "#/parameters/RoomId" }, { "$ref": "#/parameters/RoomObject" }],
         "responses": {
           "200": {
@@ -235,19 +242,12 @@
             "schema": {
               "type": "object",
               "properties": {
-                "message": { "type": "string", "example": "room validation failed: name: firstName is required." }
+                "message": { "type": "string", "example": "room validation failed: name: name is required." }
               }
             }
           },
           "401": {
             "description": "This endpoint is secured - **credentials are missing or invalid**."
-          },
-          "404": {
-            "description": "No room found for given ID",
-            "schema": {
-              "type": "object",
-              "properties": { "message": { "type": "string", "example": "document not found" } }
-            }
           },
           "default": {
             "description": "Unexpected response - internal error"
@@ -280,6 +280,13 @@
           },
           "401": {
             "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
+          "404": {
+            "description": "No room found for given ID",
+            "schema": {
+              "type": "object",
+              "properties": { "message": { "type": "string", "example": "document not found" } }
+            }
           },
           "default": {
             "description": "Unexpected response - internal error"

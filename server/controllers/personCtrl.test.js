@@ -51,6 +51,22 @@ jest.mock('../models', () => ({
       return {}
     }),
   },
+  Room: {
+    find: jest.fn().mockImplementation(query => {
+      if (query['relation.person'] === '123') {
+        return [
+          {
+            _id: 'room123',
+            name: 'Mock Room',
+            isBooked: true,
+            relation: [{ person: '123' }],
+            save: jest.fn().mockResolvedValue({}),
+          },
+        ]
+      }
+      return []
+    }),
+  },
 }))
 
 /*

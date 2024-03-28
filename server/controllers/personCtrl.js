@@ -2,7 +2,7 @@ const log = require('@kth/log')
 /**
  * Person API controller.
  */
-const { Person } = require('../models')
+const { Person, Room } = require('../models')
 
 /**
  * @param {object} req
@@ -120,6 +120,16 @@ async function deletePerson(req, res, next) {
 
     if (!doc) {
       return res.status(404).json({ message: 'document not found' })
+    } else {
+      const rooms = await Room.find({ 'relation.person': req.params.id })
+      console.log(rooms)
+      const promises = rooms.map(async room => {
+        room.relation = room.relation.filter(rel => String(rel.person) !== String(req.params.id))
+        if (!room.relation.length) room.isBooked = false
+        await room.save()
+      })
+
+      await Promise.all(promises)
     }
 
     res.status(204).send()
