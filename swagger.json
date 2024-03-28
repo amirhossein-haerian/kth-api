@@ -148,6 +148,129 @@
         },
         "security": [{ "api_key": ["write"] }]
       }
+    },
+    "/v1/room/{id}": {
+      "get": {
+        "tags": ["room"],
+        "operationId": "getRoomById",
+        "summary": "Room with ID",
+        "description": "Returns the earlier stored room-object with the given ID.\n\n_(Room.getRoom)_\n\n",
+        "parameters": [{ "$ref": "#/parameters/RoomId" }],
+        "responses": {
+          "200": {
+            "description": "The requested room",
+            "schema": { "$ref": "#/definitions/RoomObject" }
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
+          "404": {
+            "description": "No room found for given ID",
+            "schema": {
+              "type": "object",
+              "properties": { "message": { "type": "string", "example": "document not found" } }
+            }
+          },
+          "default": {
+            "description": "Unexpected response - internal error"
+          }
+        },
+        "security": [{ "api_key": ["read"] }]
+      },
+      "post": {
+        "tags": ["room"],
+        "operationId": "postRoomById",
+        "summary": "Room with ID",
+        "description": "Returns the earlier stored room-object with the given ID.\n\n_(Room.postRoom)_\n\n",
+        "parameters": [{ "$ref": "#/parameters/RoomId" }, { "$ref": "#/parameters/RoomObject" }],
+        "responses": {
+          "200": {
+            "description": "The requested room",
+            "schema": { "$ref": "#/definitions/RoomObject" }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string", "example": "room validation failed: name: firstName is required." }
+              }
+            }
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
+          "404": {
+            "description": "No room found for given ID",
+            "schema": {
+              "type": "object",
+              "properties": { "message": { "type": "string", "example": "document not found" } }
+            }
+          },
+          "default": {
+            "description": "Unexpected response - internal error"
+          }
+        },
+        "security": [{ "api_key": ["write"] }]
+      },
+      "put": {
+        "tags": ["room"],
+        "operationId": "putRoomById",
+        "summary": "Update an existing room object",
+        "description": "overwriting any old room with the same ID.\n\n_(Room.putRoom)_",
+        "parameters": [{ "$ref": "#/parameters/RoomId" }, { "$ref": "#/parameters/RoomObject" }],
+        "responses": {
+          "200": {
+            "description": "The stored room object",
+            "schema": { "$ref": "#/definitions/RoomObject" }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Room validation failed: firstName: firstName is required. \n\n lastName: lastName is required."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
+          "default": {
+            "description": "Unexpected response - internal error"
+          }
+        },
+        "security": [{ "api_key": ["write"] }]
+      },
+      "delete": {
+        "tags": ["room"],
+        "operationId": "deleteRoomById",
+        "summary": "Delete an existing room object",
+        "description": "delete any old room with the same ID.\n\n_(Room.deleteRoom)_",
+        "parameters": [{ "$ref": "#/parameters/RoomId" }],
+        "responses": {
+          "204": {
+            "description": "Room object deleted"
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
+          "404": {
+            "description": "No room found for given ID",
+            "schema": {
+              "type": "object",
+              "properties": { "message": { "type": "string", "example": "document not found" } }
+            }
+          },
+          "default": {
+            "description": "Unexpected response - internal error"
+          }
+        },
+        "security": [{ "api_key": ["write"] }]
+      }
     }
   },
   "securityDefinitions": {
@@ -177,6 +300,27 @@
           "lastName": { "type": "string", "example": "Doe" }
         }
       }
+    },
+    "RoomId": {
+      "in": "path",
+      "description": "ID of the room object, e.g., \"123\"",
+      "name": "id",
+      "required": true,
+      "type": "string"
+    },
+    "RoomObject": {
+      "in": "body",
+      "description": "Room object that needs to be added to the store",
+      "required": true,
+      "name": "room",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "example": "room A" },
+          "isBooked": { "type": "boolean", "example": true },
+          "relation": { "type": "array", "example": ["1", "2"] }
+        }
+      }
     }
   },
   "definitions": {
@@ -185,6 +329,29 @@
         "id": { "type": "string", "example": "123" },
         "firstName": { "type": "string", "example": "John" },
         "lastName": { "type": "string", "example": "Doe" }
+      }
+    },
+    "RoomObject": {
+      "id": { "type": "string", "example": "123" },
+      "type": "object",
+      "required": ["name", "isBooked"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Room A"
+        },
+        "isBooked": {
+          "type": "boolean",
+          "example": false
+        },
+        "relation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of associated person IDs",
+          "example": ["1", "2"]
+        }
       }
     }
   }
