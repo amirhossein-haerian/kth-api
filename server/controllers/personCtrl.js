@@ -121,6 +121,10 @@ async function deletePerson(req, res, next) {
     if (!doc) {
       return res.status(404).json({ message: 'document not found' })
     } else {
+      /**
+       * here I check to see if the removed person is inside a relation with a room or not
+       * if it is inside a relation with a room, the room object will update accordingly.
+       */
       const rooms = await Room.find({ 'relation.person': req.params.id })
       console.log(rooms)
       const promises = rooms.map(async room => {
