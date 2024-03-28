@@ -2,6 +2,9 @@
 // But also try to get the order better
 const express = require('express')
 
+// This is to use api from local host inside a react application
+const cors = require('cors')
+
 // Load .env file in development mode
 const nodeEnv = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase()
 if (nodeEnv === 'development' || nodeEnv === 'dev' || !nodeEnv) {
@@ -25,6 +28,8 @@ const logConfiguration = {
 log.init(logConfiguration)
 
 const server = express()
+
+server.use(cors())
 
 const path = require('path')
 
