@@ -74,12 +74,73 @@
             "schema": {
               "type": "object",
               "properties": {
-                "message": { "type": "string", "example": "Sample validation failed: name: Name is required." }
+                "message": {
+                  "type": "string",
+                  "example": "Sample validation failed: firstName: firstName is required. \n\n lastName: lastName is required."
+                }
               }
             }
           },
           "401": {
             "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
+          "default": {
+            "description": "Unexpected response - internal error"
+          }
+        },
+        "security": [{ "api_key": ["write"] }]
+      },
+      "put": {
+        "tags": ["data"],
+        "operationId": "putDataById",
+        "summary": "Update an existing data object",
+        "description": "overwriting any old data with the same ID.\n\n_(Sample.putData)_",
+        "parameters": [{ "$ref": "#/parameters/DataId" }, { "$ref": "#/parameters/DataObject" }],
+        "responses": {
+          "200": {
+            "description": "The stored data object",
+            "schema": { "$ref": "#/definitions/DataObject" }
+          },
+          "400": {
+            "description": "Invalid request",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Sample validation failed: firstName: firstName is required. \n\n lastName: lastName is required."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
+          "default": {
+            "description": "Unexpected response - internal error"
+          }
+        },
+        "security": [{ "api_key": ["write"] }]
+      },
+      "delete": {
+        "tags": ["data"],
+        "operationId": "deleteDataById",
+        "summary": "Delete an existing data object",
+        "description": "delete any old data with the same ID.\n\n_(Sample.deleteData)_",
+        "parameters": [{ "$ref": "#/parameters/DataId" }],
+        "responses": {
+          "204": {
+            "description": "Data object deleted"
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          },
+          "404": {
+            "description": "No data found for given ID",
+            "schema": {
+              "type": "object",
+              "properties": { "message": { "type": "string", "example": "document not found" } }
+            }
           },
           "default": {
             "description": "Unexpected response - internal error"

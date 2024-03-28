@@ -127,6 +127,8 @@ const paths = getPaths()
 apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
 apiRoute.register(paths.api.getDataById, Sample.getData)
 apiRoute.register(paths.api.postDataById, Sample.postData)
+apiRoute.register(paths.api.putDataById, Sample.putData)
+apiRoute.register(paths.api.deleteDataById, Sample.deleteData)
 server.use('/', apiRoute.getRouter())
 
 // Catch not found and errors

@@ -1,4 +1,4 @@
-const { getData, postData } = require('./sampleCtrl')
+const { getData, postData, putData, deleteData } = require('./sampleCtrl')
 
 // Test data
 //
@@ -32,6 +32,23 @@ jest.mock('../models', () => ({
         lastName: 'mockLastName',
         save: jest.fn().mockImplementation(() => {}),
       }
+    }),
+    findByIdAndUpdate: jest.fn().mockImplementation((_id, update, options) => {
+      if (!_id || _id === 'abc') {
+        return null
+      }
+
+      return {
+        _id,
+        ...update,
+        save: jest.fn().mockImplementation(() => {}),
+      }
+    }),
+    findByIdAndDelete: jest.fn().mockImplementation(_id => {
+      if (!_id || _id === 'abc') {
+        return null
+      }
+      return {}
     }),
   },
 }))
@@ -118,5 +135,44 @@ describe(`Sample controller`, () => {
 
     await postData(req, res, next)
     expect(next).toHaveBeenNthCalledWith(1, new Error('Failed to save'))
+  })
+
+  test('should handle putData ok', async () => {
+    const req = buildReq({ params: { id: '123' }, body: { firstName: 'John', lastName: 'Doe' } })
+    const res = buildRes()
+    const next = buildNext()
+
+    await putData(req, res, next)
+    expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', firstName: 'John', lastName: 'Doe' })
+  })
+
+  test('should handle putData not found', async () => {
+    const req = buildReq({})
+    const res = buildRes()
+    const next = buildNext()
+
+    await putData(req, res, next)
+
+    expect(res.json).toHaveBeenNthCalledWith(1, { message: 'document not found' })
+  })
+
+  test('should handle deleteData ok', async () => {
+    const req = buildReq({ params: { id: '123' } })
+    const res = buildRes()
+    const next = buildNext()
+
+    await deleteData(req, res, next)
+    expect(res.status).toHaveBeenCalledWith(204)
+    expect(res.send).toHaveBeenCalled()
+  })
+
+  test('should handle delete not found', async () => {
+    const req = buildReq({})
+    const res = buildRes()
+    const next = buildNext()
+
+    await deleteData(req, res, next)
+
+    expect(res.json).toHaveBeenNthCalledWith(1, { message: 'document not found' })
   })
 })
