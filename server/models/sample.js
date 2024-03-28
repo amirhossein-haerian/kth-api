@@ -2,18 +2,28 @@
 
 /**
  * Sample API model. Can safely be removed.
+ 
+ * To make it possible to handle values with firstName and lastName this model needed to be changed.
  */
 
 const mongoose = require('mongoose')
 
 const schema = new mongoose.Schema({
   _id: String,
-  name: {
+  firstName: {
     type: String,
-    required: [true, 'Name is required.'],
+    required: [true, 'firstName is required.'],
     trim: true,
-    minlength: [1, 'Name must have at least one character.'],
-    maxlength: [20, 'Name must have at most 20 characters.'],
+    minlength: [1, 'firstName must have at least one character.'],
+    maxlength: [20, 'firstName must have at most 20 characters.'],
+    default: '',
+  },
+  lastName: {
+    type: String,
+    required: [true, 'lastName is required.'],
+    trim: true,
+    minlength: [1, 'lastName must have at least one character.'],
+    maxlength: [20, 'lastName must have at most 20 characters.'],
     default: '',
   },
 })

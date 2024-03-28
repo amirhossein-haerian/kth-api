@@ -19,7 +19,7 @@ async function getData(req, res, next) {
       return res.status(404).json({ message: 'document not found' })
     }
     log.debug({ req, res }, 'Leave getData')
-    return res.json({ id: doc._id, name: doc.name })
+    return res.json({ id: doc._id, firstName: doc.firstName, lastName: doc.lastName })
   } catch (err) {
     return next(err)
   }
@@ -38,15 +38,16 @@ async function postData(req, res, next) {
     if (!doc) {
       doc = new Sample({
         _id: req.params.id,
-        name: req.body.name,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
       })
     } else {
-      doc.name = req.body.name
+      ;(doc.firstName = req.body.firstName), (doc.lastName = req.body.lastName)
     }
 
     await doc.save()
     log.debug({ req, res })
-    res.json({ id: doc._id, name: doc.name })
+    res.json({ id: doc._id, firstName: doc.firstName, lastName: doc.lastName })
   } catch (err) {
     next(err)
   }

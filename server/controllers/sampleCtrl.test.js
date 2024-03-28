@@ -19,7 +19,8 @@ jest.mock('../models', () => ({
       if (_id === 'fail') {
         return {
           _id,
-          name: 'mockdata',
+          firstName: 'mockFirstName',
+          lastName: 'mockLastName',
           save: jest.fn().mockImplementation(() => {
             throw new Error('Failed to save')
           }),
@@ -27,7 +28,8 @@ jest.mock('../models', () => ({
       }
       return {
         _id,
-        name: 'mockdata',
+        firstName: 'mockFirstName',
+        lastName: 'mockLastName',
         save: jest.fn().mockImplementation(() => {}),
       }
     }),
@@ -80,7 +82,7 @@ describe(`Sample controller`, () => {
 
     await getData(req, res, next)
 
-    expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', name: 'mockdata' })
+    expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', firstName: 'mockFirstName', lastName: 'mockLastName' })
   })
 
   test('should handle getData not found', async () => {
@@ -94,23 +96,23 @@ describe(`Sample controller`, () => {
   })
 
   test('should postData update ok', async () => {
-    const req = buildReq({ params: { id: '123' }, body: { name: 'foo' } })
+    const req = buildReq({ params: { id: '123' }, body: { firstName: 'John', lastName: 'Doe' } })
     const res = buildRes()
     const next = buildNext()
 
     await postData(req, res, next)
-    expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', name: 'foo' })
+    expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', firstName: 'John', lastName: 'Doe' })
   })
   test('should postData create ok', async () => {
-    const req = buildReq({ params: { id: '123' }, body: { name: 'foo' } })
+    const req = buildReq({ params: { id: '123' }, body: { firstName: 'John', lastName: 'Doe' } })
     const res = buildRes()
     const next = buildNext()
 
     await postData(req, res, next)
-    expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', name: 'foo' })
+    expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', firstName: 'John', lastName: 'Doe' })
   })
   test('should handle postData  fail', async () => {
-    const req = buildReq({ params: { id: 'fail' }, body: { name: 'foo' } })
+    const req = buildReq({ params: { id: 'fail' }, body: { firstName: 'John', lastName: 'Doe' } })
     const res = buildRes()
     const next = buildNext()
 
