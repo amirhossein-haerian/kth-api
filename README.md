@@ -96,3 +96,30 @@ $ npm run start-dev
 00:00:01.130Z  INFO node-api: AGENDA: import: scheduled at Tue Jan 03 2023 06:20:00 GMT+0100 (Central European Standard Time)
 
 ```
+
+## This part has been wrote by Amir:
+
+to run the project after following the installation steps outlined above, ensure you rename `.env-keep` to `.env` for proper configuration.
+
+### Models inside the project:
+
+- `Room`: id, firstName, lastName
+- `Person`: id, name, isBooked, relation
+
+### some facts regarding models:
+
+- You cannot add multiple rooms with same name.
+- You cannot add a room that isBooked with an empty list of persons (relation).
+- With The database architecture that I used; Room and Person are connected together and each room can have multiple persons. This means that you can put a list of person IDs inside rooms as the relation.
+
+### things to mention:
+
+- Two extra endpoints (getRooms & getPersons) have been added because I needed them to implement my idea in UI.
+- I installed the cors package and used it inside the server.js because it was not possible to call API from UI due to CORS policy issues (I could change my browser settings but I decided to make the UI and API usable in different browser settings).
+- Based on the suggested time frame, I tried my best first to understand the structure of the code, organize my mind, and finally implement the required assignments completely.
+- I have added some unit tests required for API calls but if I had more time I would like to add more.
+- If I had more time I was thinking of dockerizing UI and Backend inside a project file and using docker-compose to run them as two microservices (it is fun to do 🤓). This needed more than two hours time, so I decided to stick to the current version and focus on main functionalities.
+- All the comments related to my ideas be found within the code.
+- I was implementing the project with passion and I loved every parts of it 👨🏻‍💻.
+
+Thanks for this exciting adventure; looking forward to contribute more in such projects 🚀
