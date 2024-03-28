@@ -30,6 +30,27 @@
         "security": [{ "api_key": ["read"] }]
       }
     },
+    "/v1/persons": {
+      "get": {
+        "tags": ["person"],
+        "operationId": "getPersons",
+        "summary": "All the Persons",
+        "description": "Return all the stored person-objects.\n\n_(Person.getPerson)_\n\n",
+        "responses": {
+          "200": {
+            "description": "Persons",
+            "schema": { "$ref": "#/definitions/PersonObject" }
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          }
+        },
+        "default": {
+          "description": "Unexpected response - internal error"
+        },
+        "security": [{ "api_key": ["read"] }]
+      }
+    },
     "/v1/person/{id}": {
       "get": {
         "tags": ["person"],
@@ -147,6 +168,27 @@
           }
         },
         "security": [{ "api_key": ["write"] }]
+      }
+    },
+    "/v1/rooms": {
+      "get": {
+        "tags": ["room"],
+        "operationId": "getRooms",
+        "summary": "All the Rooms",
+        "description": "Returns all the stored room-objects.\n\n_(Room.getRooms)_\n\n",
+        "responses": {
+          "200": {
+            "description": "Rooms",
+            "schema": { "$ref": "#/definitions/RoomObject" }
+          },
+          "401": {
+            "description": "This endpoint is secured - **credentials are missing or invalid**."
+          }
+        },
+        "default": {
+          "description": "Unexpected response - internal error"
+        },
+        "security": [{ "api_key": ["read"] }]
       }
     },
     "/v1/room/{id}": {

@@ -9,6 +9,23 @@ const { Person } = require('../models')
  * @param {object} res
  * @param {Function} next
  */
+async function getPersons(req, res, next) {
+  try {
+    log.debug({ req, res }, 'Enter getPerson')
+    const persons = await Person.find({})
+
+    log.debug({ req, res }, 'Leave getPerson')
+    return res.json(persons)
+  } catch (err) {
+    return next(err)
+  }
+}
+
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {Function} next
+ */
 async function getPerson(req, res, next) {
   try {
     log.debug({ req, res }, 'Enter getPerson')
@@ -112,6 +129,7 @@ async function deletePerson(req, res, next) {
 }
 
 module.exports = {
+  getPersons,
   getPerson,
   postPerson,
   putPerson,

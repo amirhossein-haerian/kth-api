@@ -24,6 +24,23 @@ relationFormatter = relation => {
  * @param {object} res
  * @param {Function} next
  */
+async function getRooms(req, res, next) {
+  try {
+    log.debug({ req, res }, 'Enter getRooms')
+    const rooms = await Room.find({}).populate('relation.person')
+
+    log.debug({ req, res }, 'Leave getRooms')
+    return res.json(rooms)
+  } catch (err) {
+    return next(err)
+  }
+}
+
+/**
+ * @param {object} req
+ * @param {object} res
+ * @param {Function} next
+ */
 async function getRoom(req, res, next) {
   try {
     log.debug({ req, res }, 'Enter getRoom')
@@ -131,6 +148,7 @@ async function deleteRoom(req, res, next) {
 }
 
 module.exports = {
+  getRooms,
   getRoom,
   postRoom,
   putRoom,

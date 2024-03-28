@@ -125,10 +125,12 @@ const paths = getPaths()
 
 // API endpoints
 apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
+apiRoute.register(paths.api.getPersons, Person.getPersons)
 apiRoute.register(paths.api.getPersonById, Person.getPerson)
 apiRoute.register(paths.api.postPersonById, Person.postPerson)
 apiRoute.register(paths.api.putPersonById, Person.putPerson)
 apiRoute.register(paths.api.deletePersonById, Person.deletePerson)
+apiRoute.register(paths.api.getRooms, Room.getRooms)
 apiRoute.register(paths.api.getRoomById, Room.getRoom)
 apiRoute.register(paths.api.postRoomById, Room.postRoom)
 apiRoute.register(paths.api.putRoomById, Room.putRoom)
