@@ -1,6 +1,6 @@
-const { getData, postData, putData, deleteData } = require('./sampleCtrl')
+const { getPerson, postPerson, putPerson, deletePerson } = require('./personCtrl')
 
-// Test data
+// Test person
 //
 
 jest.mock('@kth/log', () => ({
@@ -11,7 +11,7 @@ jest.mock('@kth/log', () => ({
 }))
 
 jest.mock('../models', () => ({
-  Sample: {
+  Person: {
     findById: jest.fn().mockImplementation(_id => {
       if (!_id || _id === 'abc') {
         return null
@@ -78,7 +78,7 @@ function buildNext(impl) {
   return jest.fn(impl).mockName('next')
 }
 
-describe(`Sample controller`, () => {
+describe(`Person controller`, () => {
   const OLD_ENV = process.env
   const log = require('@kth/log')
   log.init({ name: 'Unit tests', level: 'debug', env: 'production' })
@@ -92,76 +92,76 @@ describe(`Sample controller`, () => {
     process.env = OLD_ENV
   })
 
-  test('should getData ok', async () => {
+  test('should getPerson ok', async () => {
     const req = buildReq({ params: { id: '123' } })
     const res = buildRes()
     const next = buildNext()
 
-    await getData(req, res, next)
+    await getPerson(req, res, next)
 
     expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', firstName: 'mockFirstName', lastName: 'mockLastName' })
   })
 
-  test('should handle getData not found', async () => {
+  test('should handle getPerson not found', async () => {
     const req = buildReq({})
     const res = buildRes()
     const next = buildNext()
 
-    await getData(req, res, next)
+    await getPerson(req, res, next)
 
     expect(res.json).toHaveBeenNthCalledWith(1, { message: 'document not found' })
   })
 
-  test('should postData update ok', async () => {
+  test('should postPerson update ok', async () => {
     const req = buildReq({ params: { id: '123' }, body: { firstName: 'John', lastName: 'Doe' } })
     const res = buildRes()
     const next = buildNext()
 
-    await postData(req, res, next)
+    await postPerson(req, res, next)
     expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', firstName: 'John', lastName: 'Doe' })
   })
-  test('should postData create ok', async () => {
+  test('should postPerson create ok', async () => {
     const req = buildReq({ params: { id: '123' }, body: { firstName: 'John', lastName: 'Doe' } })
     const res = buildRes()
     const next = buildNext()
 
-    await postData(req, res, next)
+    await postPerson(req, res, next)
     expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', firstName: 'John', lastName: 'Doe' })
   })
-  test('should handle postData  fail', async () => {
+  test('should handle postPerson  fail', async () => {
     const req = buildReq({ params: { id: 'fail' }, body: { firstName: 'John', lastName: 'Doe' } })
     const res = buildRes()
     const next = buildNext()
 
-    await postData(req, res, next)
+    await postPerson(req, res, next)
     expect(next).toHaveBeenNthCalledWith(1, new Error('Failed to save'))
   })
 
-  test('should handle putData ok', async () => {
+  test('should handle putPerson ok', async () => {
     const req = buildReq({ params: { id: '123' }, body: { firstName: 'John', lastName: 'Doe' } })
     const res = buildRes()
     const next = buildNext()
 
-    await putData(req, res, next)
+    await putPerson(req, res, next)
     expect(res.json).toHaveBeenNthCalledWith(1, { id: '123', firstName: 'John', lastName: 'Doe' })
   })
 
-  test('should handle putData not found', async () => {
+  test('should handle putPerson not found', async () => {
     const req = buildReq({})
     const res = buildRes()
     const next = buildNext()
 
-    await putData(req, res, next)
+    await putPerson(req, res, next)
 
     expect(res.json).toHaveBeenNthCalledWith(1, { message: 'document not found' })
   })
 
-  test('should handle deleteData ok', async () => {
+  test('should handle deletePerson ok', async () => {
     const req = buildReq({ params: { id: '123' } })
     const res = buildRes()
     const next = buildNext()
 
-    await deleteData(req, res, next)
+    await deletePerson(req, res, next)
     expect(res.status).toHaveBeenCalledWith(204)
     expect(res.send).toHaveBeenCalled()
   })
@@ -171,7 +171,7 @@ describe(`Sample controller`, () => {
     const res = buildRes()
     const next = buildNext()
 
-    await deleteData(req, res, next)
+    await deletePerson(req, res, next)
 
     expect(res.json).toHaveBeenNthCalledWith(1, { message: 'document not found' })
   })

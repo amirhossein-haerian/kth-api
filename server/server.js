@@ -117,7 +117,7 @@ addPaths(
 const authByApiKey = passport.authenticate('apikey', { session: false })
 
 // Application specific API endpoints
-const { Sample } = require('./controllers')
+const { Person } = require('./controllers')
 const { ApiRouter } = require('kth-node-express-routing')
 
 const apiRoute = ApiRouter(authByApiKey)
@@ -125,10 +125,10 @@ const paths = getPaths()
 
 // API endpoints
 apiRoute.register(paths.api.checkAPIkey, System.checkAPIKey)
-apiRoute.register(paths.api.getDataById, Sample.getData)
-apiRoute.register(paths.api.postDataById, Sample.postData)
-apiRoute.register(paths.api.putDataById, Sample.putData)
-apiRoute.register(paths.api.deleteDataById, Sample.deleteData)
+apiRoute.register(paths.api.getPersonById, Person.getPerson)
+apiRoute.register(paths.api.postPersonById, Person.postPerson)
+apiRoute.register(paths.api.putPersonById, Person.putPerson)
+apiRoute.register(paths.api.deletePersonById, Person.deletePerson)
 server.use('/', apiRoute.getRouter())
 
 // Catch not found and errors

@@ -32,17 +32,17 @@ api_key: {{api_key}}
 
 @id = 1234
 
-####### Sample.getData #######
+####### Person.getPerson #######
 
-GET {{host}}/v1/data/{{id}} HTTP/1.1
+GET {{host}}/v1/person/{{id}} HTTP/1.1
 Accept: application/json
 api_key: {{api_key}}
 
 # OK
 
-####### Sample.postData #######
+####### Person.postPerson #######
 
-POST {{host}}/v1/data/{{id}} HTTP/1.1
+POST {{host}}/v1/person/{{id}} HTTP/1.1
 Accept: application/json
 api_key: {{api_key}}
 Content-Type: application/json

@@ -30,23 +30,23 @@
         "security": [{ "api_key": ["read"] }]
       }
     },
-    "/v1/data/{id}": {
+    "/v1/person/{id}": {
       "get": {
-        "tags": ["data"],
-        "operationId": "getDataById",
-        "summary": "Data with ID",
-        "description": "Returns the earlier stored data-object with the given ID.\n\n_(Sample.getData)_\n\n",
-        "parameters": [{ "$ref": "#/parameters/DataId" }],
+        "tags": ["person"],
+        "operationId": "getPersonById",
+        "summary": "Person with ID",
+        "description": "Returns the earlier stored person-object with the given ID.\n\n_(Person.getPerson)_\n\n",
+        "parameters": [{ "$ref": "#/parameters/PersonId" }],
         "responses": {
           "200": {
-            "description": "The requested data",
-            "schema": { "$ref": "#/definitions/DataObject" }
+            "description": "The requested person",
+            "schema": { "$ref": "#/definitions/PersonObject" }
           },
           "401": {
             "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "404": {
-            "description": "No data found for given ID",
+            "description": "No person found for given ID",
             "schema": {
               "type": "object",
               "properties": { "message": { "type": "string", "example": "document not found" } }
@@ -59,15 +59,15 @@
         "security": [{ "api_key": ["read"] }]
       },
       "post": {
-        "tags": ["data"],
-        "operationId": "postDataById",
-        "summary": "Store data",
-        "description": "Saves the given data-object, overwriting any old data with the same ID.\n\n_(Sample.postData)_",
-        "parameters": [{ "$ref": "#/parameters/DataId" }, { "$ref": "#/parameters/DataObject" }],
+        "tags": ["person"],
+        "operationId": "postPersonById",
+        "summary": "Store person",
+        "description": "Saves the given person-object, overwriting any old person with the same ID.\n\n_(Person.postPerson)_",
+        "parameters": [{ "$ref": "#/parameters/PersonId" }, { "$ref": "#/parameters/PersonObject" }],
         "responses": {
           "200": {
-            "description": "The stored data object",
-            "schema": { "$ref": "#/definitions/DataObject" }
+            "description": "The stored person object",
+            "schema": { "$ref": "#/definitions/PersonObject" }
           },
           "400": {
             "description": "Invalid request",
@@ -76,7 +76,7 @@
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "Sample validation failed: firstName: firstName is required. \n\n lastName: lastName is required."
+                  "example": "Person validation failed: firstName: firstName is required. \n\n lastName: lastName is required."
                 }
               }
             }
@@ -91,15 +91,15 @@
         "security": [{ "api_key": ["write"] }]
       },
       "put": {
-        "tags": ["data"],
-        "operationId": "putDataById",
-        "summary": "Update an existing data object",
-        "description": "overwriting any old data with the same ID.\n\n_(Sample.putData)_",
-        "parameters": [{ "$ref": "#/parameters/DataId" }, { "$ref": "#/parameters/DataObject" }],
+        "tags": ["person"],
+        "operationId": "putPersonById",
+        "summary": "Update an existing person object",
+        "description": "overwriting any old person with the same ID.\n\n_(Person.putPerson)_",
+        "parameters": [{ "$ref": "#/parameters/PersonId" }, { "$ref": "#/parameters/PersonObject" }],
         "responses": {
           "200": {
-            "description": "The stored data object",
-            "schema": { "$ref": "#/definitions/DataObject" }
+            "description": "The stored person object",
+            "schema": { "$ref": "#/definitions/PersonObject" }
           },
           "400": {
             "description": "Invalid request",
@@ -108,7 +108,7 @@
               "properties": {
                 "message": {
                   "type": "string",
-                  "example": "Sample validation failed: firstName: firstName is required. \n\n lastName: lastName is required."
+                  "example": "Person validation failed: firstName: firstName is required. \n\n lastName: lastName is required."
                 }
               }
             }
@@ -123,20 +123,20 @@
         "security": [{ "api_key": ["write"] }]
       },
       "delete": {
-        "tags": ["data"],
-        "operationId": "deleteDataById",
-        "summary": "Delete an existing data object",
-        "description": "delete any old data with the same ID.\n\n_(Sample.deleteData)_",
-        "parameters": [{ "$ref": "#/parameters/DataId" }],
+        "tags": ["person"],
+        "operationId": "deletePersonById",
+        "summary": "Delete an existing person object",
+        "description": "delete any old person with the same ID.\n\n_(Person.deletePerson)_",
+        "parameters": [{ "$ref": "#/parameters/PersonId" }],
         "responses": {
           "204": {
-            "description": "Data object deleted"
+            "description": "Person object deleted"
           },
           "401": {
             "description": "This endpoint is secured - **credentials are missing or invalid**."
           },
           "404": {
-            "description": "No data found for given ID",
+            "description": "No Person found for given ID",
             "schema": {
               "type": "object",
               "properties": { "message": { "type": "string", "example": "document not found" } }
@@ -158,17 +158,17 @@
     }
   },
   "parameters": {
-    "DataId": {
+    "PersonId": {
       "in": "path",
-      "description": "ID of data object, e.g. \"123\"",
+      "description": "ID of person object, e.g. \"123\"",
       "name": "id",
       "required": true,
       "type": "string"
     },
-    "DataObject": {
+    "PersonObject": {
       "in": "body",
-      "description": "Data to save with given ID",
-      "name": "data",
+      "description": "Person to save with given ID",
+      "name": "person",
       "required": true,
       "schema": {
         "type": "object",
@@ -180,7 +180,7 @@
     }
   },
   "definitions": {
-    "DataObject": {
+    "PersonObject": {
       "properties": {
         "id": { "type": "string", "example": "123" },
         "firstName": { "type": "string", "example": "John" },

@@ -1,24 +1,24 @@
 const log = require('@kth/log')
 /**
- * Sample API controller. Can safely be removed.
+ * Person API controller.
  */
-const { Sample } = require('../models')
+const { Person } = require('../models')
 
 /**
  * @param {object} req
  * @param {object} res
  * @param {Function} next
  */
-async function getData(req, res, next) {
+async function getPerson(req, res, next) {
   try {
-    log.debug({ req, res }, 'Enter getData')
+    log.debug({ req, res }, 'Enter getPerson')
     let doc = {}
-    doc = await Sample.findById(req.params.id)
+    doc = await Person.findById(req.params.id)
 
     if (!doc) {
       return res.status(404).json({ message: 'document not found' })
     }
-    log.debug({ req, res }, 'Leave getData')
+    log.debug({ req, res }, 'Leave getPerson')
     return res.json({ id: doc._id, firstName: doc.firstName, lastName: doc.lastName })
   } catch (err) {
     return next(err)
@@ -30,13 +30,13 @@ async function getData(req, res, next) {
  * @param {object} res
  * @param {Function} next
  */
-async function postData(req, res, next) {
+async function postPerson(req, res, next) {
   try {
-    log.debug({ req, res }, 'PostData')
-    let doc = await Sample.findById(req.params.id)
+    log.debug({ req, res }, 'PostPerson')
+    let doc = await Person.findById(req.params.id)
 
     if (!doc) {
-      doc = new Sample({
+      doc = new Person({
         _id: req.params.id,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -58,15 +58,15 @@ async function postData(req, res, next) {
  * @param {object} res
  * @param {Function} next
  */
-async function putData(req, res, next) {
+async function putPerson(req, res, next) {
   try {
-    log.debug({ req, res }, 'Enter putData')
+    log.debug({ req, res }, 'Enter putPerson')
     /**
      * findByIdAndUpdate has used for atomic operation and performance efficiency,
      * ensuring data integrity by running validators during update; it also automatically return
      * the updated data object.
      */
-    let doc = await Sample.findByIdAndUpdate(
+    let doc = await Person.findByIdAndUpdate(
       req.params.id,
       {
         firstName: req.body.firstName,
@@ -80,7 +80,7 @@ async function putData(req, res, next) {
     }
 
     await doc.save()
-    log.debug({ req, res }, 'Leave putData')
+    log.debug({ req, res }, 'Leave putPerson')
     res.json({ id: doc._id, firstName: doc.firstName, lastName: doc.lastName })
   } catch (err) {
     next(err)
@@ -92,14 +92,14 @@ async function putData(req, res, next) {
  * @param {object} res
  * @param {Function} next
  */
-async function deleteData(req, res, next) {
+async function deletePerson(req, res, next) {
   try {
-    log.debug({ req, res }, 'Enter deleteData')
+    log.debug({ req, res }, 'Enter deletePerson')
     /**
      * findByIdAndDelete has used to remove a document by its ID efficiently,
      * and reducing the operation to a single step to have an optimized performance.
      */
-    let doc = await Sample.findByIdAndDelete(req.params.id)
+    let doc = await Person.findByIdAndDelete(req.params.id)
 
     if (!doc) {
       return res.status(404).json({ message: 'document not found' })
@@ -112,8 +112,8 @@ async function deleteData(req, res, next) {
 }
 
 module.exports = {
-  getData,
-  postData,
-  putData,
-  deleteData,
+  getPerson,
+  postPerson,
+  putPerson,
+  deletePerson,
 }

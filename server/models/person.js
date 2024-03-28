@@ -1,7 +1,7 @@
 'use strict'
 
 /**
- * Sample API model. Can safely be removed.
+ * Person API model.
  
  * To make it possible to handle values with firstName and lastName this model needed to be changed.
  */
@@ -28,4 +28,4 @@ const schema = new mongoose.Schema({
   },
 })
 
-module.exports = mongoose.model('Sample', schema)
+module.exports = mongoose.model('Person', schema)
